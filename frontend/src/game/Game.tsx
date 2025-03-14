@@ -1,9 +1,9 @@
-import {useEffect, useRef, forwardRef } from 'react';
+import React, {useEffect, useRef, forwardRef } from 'react';
 import Phaser from 'phaser';
 import { Boot } from './scenes/Boot.tsx';
 import { Island } from './scenes/Island.tsx';
 
-type GameProps = {};
+type GameProps = unknown;
 
 const Game = forwardRef<Island, GameProps>((_props, ref) => {
   const phaserGameRef = useRef<Phaser.Game>(null);

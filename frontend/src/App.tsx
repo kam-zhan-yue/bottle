@@ -1,6 +1,6 @@
 import './App.css'
 import Game from './game/Game'
-import { useRef } from 'react'
+import React, { useRef } from 'react'
 import { Island } from './game/scenes/Island.tsx'
 
 function App() {
