@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.14",
+    "@tanstack/react-query": "^5.68.0",
     "@tanstack/react-router": "^1.114.17",
     "bun": "^1.2.5",
     "phaser": "v3.88.2",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@tanstack/eslint-plugin-query": "^5.68.0",
     "@tanstack/react-router-devtools": "^1.114.21",
     "@tanstack/router-plugin": "^1.114.17",
     "@types/react": "^19.0.10",
