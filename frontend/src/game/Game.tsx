@@ -1,12 +1,12 @@
-import React, {useEffect, useRef, forwardRef } from 'react';
-import Phaser from 'phaser';
-import { Boot } from './scenes/Boot.tsx';
-import { Island } from './scenes/Island.tsx';
+import { useEffect, useRef, useContext } from "react";
+import Phaser from "phaser";
+import { Boot } from "./scenes/Boot.tsx";
+import { Island } from "./scenes/Island.tsx";
+import { GameContext, GameContextType } from "./GameContext.tsx";
 
-type GameProps = unknown;
-
-const Game = forwardRef<Island, GameProps>((_props, ref) => {
+const Game = () => {
   const phaserGameRef = useRef<Phaser.Game>(null);
+  const { setIsland } = useContext(GameContext) as GameContextType;
 
   // Game Initiation
   useEffect(() => {
@@ -16,15 +16,15 @@ const Game = forwardRef<Island, GameProps>((_props, ref) => {
       type: Phaser.AUTO,
       width: 1000,
       height: 1000,
-      parent: 'game-container',
-      backgroundColor: '#1f1137',
+      parent: "game-container",
+      backgroundColor: "#1f1137",
       scale: {
         mode: Phaser.Scale.RESIZE,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        zoom: 10
+        zoom: 10,
       },
       physics: {
-        default: 'arcade',
+        default: "arcade",
         arcade: {
           debug: true,
           gravity: { x: 0, y: 0 },
@@ -35,23 +35,16 @@ const Game = forwardRef<Island, GameProps>((_props, ref) => {
 
     const game = new Phaser.Game(config);
     phaserGameRef.current = game;
-    if(ref && islandScene) {
-      if(typeof ref === 'function') {
-        ref(islandScene);
-      } else {
-        ref.current = islandScene;
-      }
+    if (islandScene) {
+      setIsland(islandScene);
     }
 
     return () => {
       game.destroy(true);
     };
-  }, [ref]);
+  }, [setIsland]);
 
-  return (
-      <div id="game-container">
-      </div>
-  );
-});
+  return <div id="game-container"></div>;
+};
 
 export default Game;
