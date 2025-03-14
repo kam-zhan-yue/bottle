@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "bun": "^1.2.5",
-    "phaser": "^3.88.2",
+    "phaser": "v3.88.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
