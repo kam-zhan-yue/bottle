@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useContext, useEffect, useState } from "react";
 import { GameContext, GameContextType } from "../game/GameContext";
 import { EventBus } from "../EventBus";
@@ -21,10 +21,13 @@ function Index() {
   return (
     <>
       <Overlay>
-        <div className="p-2">
-          {island && <p>Island Title: {island.title}</p>}
+        <div className="w-full h-full flex flex-col justify-center items-center">
+          <div className="p-2">
+            {island && <p>Island Title: {island.title}</p>}
+          </div>
+          <div className="p-2">{island && <p>Time: {elapsedTime}</p>}</div>
+          <Link to="/game">Start</Link>
         </div>
-        <div className="p-2">{island && <p>Time: {elapsedTime}</p>}</div>
       </Overlay>
     </>
   );
