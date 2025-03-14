@@ -1,15 +1,11 @@
-import React from 'react'
+import { ReactNode } from "react";
 
-const Overlay = () => {
-  return (
-    <div className="overlay">
-      <div className="overlay-content">
-        <h1>Welcome to the Game!</h1>
-        <p>Click the button below to start playing.</p>
-        <button>Start Game</button>
-      </div>
-    </div>
-  );
+interface OverlayProps {
+  children: ReactNode;
+}
+
+const Overlay = ({ children }: OverlayProps) => {
+  return <div className="fixed inset-0 w-full h-full">{children}</div>;
 };
 
-export default Overlay
+export default Overlay;
