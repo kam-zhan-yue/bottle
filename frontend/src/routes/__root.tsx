@@ -1,21 +1,23 @@
-import React from "react";
-import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
+import React, { useRef } from "react";
+import { Island } from "../game/scenes/Island";
+import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import Game from "../game/Game";
+import "../index.css";
 
 export const Route = createRootRoute({
-  component: () => (
-    <>
-      <div className="p-2 flex gap-2">
-        <Link to="/" className="[&.active]:font-bold">
-          Home
-        </Link>{" "}
-        <Link to="/about" className="[&.active]:font-bold">
-          About
-        </Link>
-      </div>
-      <hr />
-      <Outlet />
-      <TanStackRouterDevtools />
-    </>
-  ),
+  component: Root,
 });
+
+function Root() {
+  const gameRef = useRef<Island>(null);
+  return (
+    <>
+      <div id="app">
+        <Game ref={gameRef} />
+        <Outlet />
+        <TanStackRouterDevtools />
+      </div>
+    </>
+  );
+}
