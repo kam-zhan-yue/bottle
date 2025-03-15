@@ -1,11 +1,35 @@
+import { EventBus } from "../../EventBus";
+import { constants } from "../Constants";
 import Bottle from "./Bottle";
 
 export default class BottleHandler {
   private scene: Phaser.Scene;
   private bottles: Bottle[] = [];
+  private position: Phaser.Math.Vector2;
+  private size: Phaser.Math.Vector2;
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
+    this.position = new Phaser.Math.Vector2(0, 0);
+    this.size = new Phaser.Math.Vector2(225, 175);
+
+    if (constants.debug) {
+      const graphics = this.scene.add.graphics();
+      graphics.fillStyle(0xff0000, 0.5);
+      graphics.fillRect(
+        this.getMinBound().x,
+        this.getMinBound().y,
+        this.size.x,
+        this.size.y,
+      );
+    }
+  }
+
+  getMinBound(): Phaser.Math.Vector2 {
+    return new Phaser.Math.Vector2(
+      this.position.x - this.size.x / 2,
+      this.position.y - this.size.y / 2,
+    );
   }
 
   getRandomSpawn() {
@@ -17,8 +41,9 @@ export default class BottleHandler {
     return new Phaser.Math.Vector2(spawnX, spawnY);
   }
 
-  spawnBottle() {
+  spawnBottle(id: string) {
     const bottle = new Bottle(
+      id,
       this.scene,
       this.getRandomSpawn(),
       new Phaser.Math.Vector2(0, 0),
@@ -26,9 +51,28 @@ export default class BottleHandler {
     this.bottles.push(bottle);
   }
 
+  contains(bottle: Bottle): boolean {
+    const contains =
+      bottle.body.x >= this.getMinBound().x &&
+      bottle.body.x <= this.getMinBound().x + this.size.x &&
+      bottle.body.y >= this.getMinBound().y &&
+      bottle.body.y <= this.getMinBound().y + this.size.y;
+    return contains;
+  }
+
   update(delta: number) {
     for (const bottle of this.bottles) {
-      bottle.update(delta);
+      if (this.contains(bottle)) {
+        bottle.fadeOut();
+      } else {
+        bottle.update(delta);
+      }
+    }
+    for (let i = this.bottles.length - 1; i >= 0; i--) {
+      if (this.bottles[i].isDead()) {
+        EventBus.emit("bottle", this.bottles[i].getId());
+        this.bottles.splice(i, 1); // Remove the dead bottle
+      }
     }
   }
 }

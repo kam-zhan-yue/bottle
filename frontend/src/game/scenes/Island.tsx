@@ -46,7 +46,7 @@ export class Island extends Scene {
       this.player = new Player(this.physics, 0, 0, "player", this.inputHandler);
       this.obstacleHandler.init(this.player);
       this.cameras.main.startFollow(this.player.body, false, 0.4, 0.4);
-      this.bottleHandler.spawnBottle();
+      this.bottleHandler.spawnBottle("test");
     }
   }
 
