@@ -8,6 +8,7 @@ import {
   WebSocketContext,
   WebSocketContextType,
 } from "../contexts/WebSocketContext";
+import { InteractionType } from "../utils/InteractionType";
 
 export const Route = createFileRoute("/game")({
   component: Game,
@@ -15,18 +16,19 @@ export const Route = createFileRoute("/game")({
 
 function Game() {
   const { island, user } = useContext(GameContext) as GameContextType;
-  const { lastJsonMessage } = useContext(
+  const navigate = useNavigate();
+
+  const { message: webMessage } = useContext(
     WebSocketContext,
   ) as WebSocketContextType;
-  useEffect(() => {
-    if (lastJsonMessage) {
-      console.log("Game: Received message:", lastJsonMessage);
-    } else {
-      console.log("Game: No message received");
-    }
-  }, [lastJsonMessage]);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (webMessage) {
+      console.log("Game Received message:", webMessage);
+    } else {
+      console.log("Game No message received");
+    }
+  }, [webMessage]);
 
   useEffect(() => {
     if (island) {
@@ -35,23 +37,27 @@ function Game() {
   }, [island]);
 
   useEffect(() => {
-    console.log("Initialising EventBus listeners");
+    const registerEvent = (event: InteractionType, fn: () => void) => {
+      EventBus.on(event, fn);
+    };
 
-    EventBus.on("mailbox", () => {
-      console.log("React show mailbox");
+    const unregisterEvent = (event: InteractionType) => {
+      EventBus.off(event);
+    };
+
+    registerEvent("mailbox", () => {
       navigate({ to: "/game/read" });
       island?.switchState("ui");
     });
 
-    EventBus.on("note", () => {
-      console.log("React send note");
+    registerEvent("note", () => {
       navigate({ to: "/game/send" });
       island?.switchState("ui");
     });
 
     return () => {
-      EventBus.off("mailbox");
-      EventBus.off("note");
+      unregisterEvent("mailbox");
+      unregisterEvent("note");
     };
   }, [user, navigate]);
 

@@ -4,7 +4,6 @@ import Overlay from "../../components/Overlay";
 import scroll from "../../assets/scroll.png";
 import sendButtonDefault from "../../assets/send_button_default.png";
 import sendButtonHover from "../../assets/send_button_hover.png";
-import { GameContext, GameContextType } from "../../game/GameContext";
 import {
   WebSocketContext,
   WebSocketContextType,
@@ -26,17 +25,17 @@ function Send() {
     island?.switchState("game");
   };
   const [message, setMessage] = useState("");
-  const { sendJsonMessage, lastJsonMessage } = useContext(
+  const { sendJsonMessage, message: webMessage } = useContext(
     WebSocketContext,
   ) as WebSocketContextType;
 
   useEffect(() => {
-    if (lastJsonMessage) {
-      console.log("Send Received message:", lastJsonMessage);
+    if (webMessage) {
+      console.log("Send Received message:", webMessage);
     } else {
       console.log("Send No message received");
     }
-  }, [lastJsonMessage]);
+  }, [webMessage]);
 
   const { user } = useContext(GameContext) as GameContextType;
 

@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { WebSocketContext } from "./WebSocketContext";
 import useWebSocket from "react-use-websocket";
 
@@ -11,12 +11,25 @@ export const WebSocketProvider: React.FC<{ children: ReactNode }> = ({
     share: true,
   });
 
+  const [message, setMessage] = useState(lastJsonMessage);
+
   useEffect(() => {
-    console.log("WebSocketProvider", lastJsonMessage);
+    if (lastJsonMessage !== null) {
+      console.log("WebSocketProvider", lastJsonMessage);
+      setMessage({ ...lastJsonMessage }); // Ensure a new object reference
+    }
   }, [lastJsonMessage]);
 
+  useEffect(() => {
+    if (message) {
+      console.log("Message is ", message);
+    }
+  }, [message]);
+
   return (
-    <WebSocketContext.Provider value={{ sendJsonMessage, lastJsonMessage }}>
+    <WebSocketContext.Provider
+      value={{ sendJsonMessage, lastJsonMessage: message, message: message }}
+    >
       {children}
     </WebSocketContext.Provider>
   );

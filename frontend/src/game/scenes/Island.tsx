@@ -89,7 +89,6 @@ export class Island extends Scene {
       console.log(interaction);
       if (interaction) {
         EventBus.emit(interaction.id);
-        console.log("Emitting ", interaction.id);
       }
     }
   }
