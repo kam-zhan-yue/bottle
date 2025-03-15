@@ -10,16 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 from dotenv import load_dotenv
-import os
+
 load_dotenv()
-NAME=os.getenv("NAME")
-USER=os.getenv("USER")
-PASSWORD=os.getenv("PASSWORD")
-HOST=os.getenv("HOST")
-PORT=os.getenv("PORT")
+NAME=os.getenv("DATABASE_NAME")
+USER=os.getenv("DATABASE_USERNAME")
+PASSWORD=os.getenv("DATABASE_PASSWORD")
+HOST=os.getenv("DATABASE_HOST")
+PORT=os.getenv("DATABASE_PORT")
+DATABASE_ENGINE=os.getenv("DATABASE_ENGINE")
+
+print("SDLKFJSDLKFJKLSD")
+print(NAME,USER,PASSWORD,HOST,PORT,DATABASE_ENGINE)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -85,7 +90,7 @@ WSGI_APPLICATION = 'bottle_backend.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": DATABASE_ENGINE,
         "NAME": NAME,
         "USER": USER,
         "PASSWORD": PASSWORD,
