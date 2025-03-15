@@ -19,6 +19,10 @@ export default class Player {
     this.inputHandler = inputHandler;
   }
 
+  getPos(): Phaser.Math.Vector2 {
+    return new Phaser.Math.Vector2(this.body.x, this.body.y);
+  }
+
   checkInputs() {
     const speed = 100;
 

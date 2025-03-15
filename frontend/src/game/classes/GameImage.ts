@@ -1,17 +1,17 @@
 export default class GameImage {
+  public image: Phaser.GameObjects.Image;
+
   constructor(
     scene: Phaser.Scene,
-    x: number,
-    y: number,
+    position: Phaser.Math.Vector2,
     key: string,
     depth: number | undefined = undefined,
   ) {
-    const image = scene.add.image(x, y, key);
+    this.image = scene.add.image(position.x, position.y, key);
     if (depth) {
-      image.depth = depth;
+      this.image.depth = depth;
     } else {
-      image.depth = image.y + image.height / 2;
-      console.log(key, " ", image.depth);
+      this.image.depth = this.image.y + this.image.height / 2;
     }
   }
 }

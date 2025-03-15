@@ -17,7 +17,7 @@ const Game = () => {
       width: 1000,
       height: 1000,
       parent: "game-container",
-      backgroundColor: "#1f1137",
+      backgroundColor: "#65a4f8",
       scale: {
         mode: Phaser.Scale.RESIZE,
         autoCenter: Phaser.Scale.CENTER_BOTH,

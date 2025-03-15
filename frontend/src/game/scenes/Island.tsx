@@ -4,6 +4,8 @@ import Player from "../classes/Player";
 import InputHandler from "../classes/InputHandler";
 import createCharacterAnims from "../classes/AnimationHandler";
 import GameImage from "../classes/GameImage";
+import Interaction from "../classes/Interaction";
+import InteractionHandler from "../classes/InteractionHandler";
 
 export class Island extends Scene {
   public title: string;
@@ -11,6 +13,7 @@ export class Island extends Scene {
   public state: "game" | "ui";
   public player!: Player;
   private inputHandler!: InputHandler;
+  private interactionHandler!: InteractionHandler;
 
   constructor() {
     super({ key: "Island" });
@@ -21,8 +24,27 @@ export class Island extends Scene {
 
   setupGame() {
     this.inputHandler = new InputHandler(this);
-    new GameImage(this, 0, 0, "island", -100);
-    new GameImage(this, 0, 0, "tree");
+    this.interactionHandler = new InteractionHandler(this);
+
+    new GameImage(this, new Phaser.Math.Vector2(0, 0), "island", -100);
+    new GameImage(this, new Phaser.Math.Vector2(-10, -50), "tree");
+
+    this.interactionHandler.add(
+      new Interaction(
+        this,
+        new Phaser.Math.Vector2(-80, 10),
+        new Phaser.Math.Vector2(50, 50),
+        "mailbox",
+      ),
+    );
+
+    this.interactionHandler.add(
+      new Interaction(
+        this,
+        new Phaser.Math.Vector2(80, 10),
+        new Phaser.Math.Vector2(50, 50),
+      ),
+    );
     this.player = new Player(this.physics, 0, 0, "player", this.inputHandler);
   }
 
@@ -45,6 +67,7 @@ export class Island extends Scene {
     switch (this.state) {
       case "game":
         this.player.update();
+        this.interactionHandler.update(this.player.getPos());
         break;
       case "ui":
         break;
