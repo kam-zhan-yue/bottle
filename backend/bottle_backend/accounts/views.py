@@ -27,14 +27,21 @@ class BottleViewSet(viewsets.ModelViewSet):
 @permission_classes([AllowAny])
 def register(request):
     username = request.data.get('username')
-    email = request.data.get('email')
     password = request.data.get('password')
+
+    # Validate input
+    if not username or not password:
+        return Response({"error": "Username and Password are required."}, status=status.HTTP_400_BAD_REQUEST)
 
     if User.objects.filter(username=username).exists():
         return Response({"error": "Username already taken"}, status=400)
-    
-    user = User.objects.create_uesr(username=username, email=email, password=password)
-    return Response({"message": "User registered successfully"}, status=201)
+
+    user = User.objects.create_user(username=username, password=password)
+    user.save()
+    return Response({
+    "message": "User registered successfully",
+    "user_id": user.id
+    }, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])

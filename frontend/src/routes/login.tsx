@@ -8,6 +8,8 @@ import { useContext, useState } from "react";
 import { GameContext, GameContextType } from "../game/GameContext";
 import logo from "../assets/bottle.png";
 import "../index.css";
+import { Account } from "../api/types/account";
+import { useLogin } from "../api/hooks/login";
 
 export const Route = createFileRoute("/login")({
   component: Login,
@@ -19,13 +21,23 @@ const gameLinkOption = linkOptions({
 
 function Login() {
   const { setUser } = useContext(GameContext) as GameContextType;
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [formData, setFormData] = useState<Account>({
+    username: "",
+    password: "",
+  });
   const navigate = useNavigate();
 
-  const onSubmit = (username: string) => {
-    setUser(username);
-    navigate(gameLinkOption);
+  const { mutate } = useLogin();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    mutate(formData, {
+      onSuccess: (data) => {
+        console.log("Login Success, data is ", data.data.user.id);
+        setUser(data.data.user.id);
+        navigate(gameLinkOption);
+      },
+    });
   };
 
   return (
@@ -46,13 +58,7 @@ function Login() {
           Log In
         </p>
 
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            onSubmit(username);
-          }}
-          className="flex flex-col w-64"
-        >
+        <form onSubmit={handleSubmit} className="flex flex-col w-64">
           <label
             htmlFor="username"
             className="text-sm text-left mt-4"
@@ -64,9 +70,11 @@ function Login() {
             id="username"
             className="mt-1 p-2 rounded bg-gray-100 border border-gray-300 focus:outline-none"
             type="text"
-            value={username}
+            value={formData.username}
             placeholder="username"
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) =>
+              setFormData({ ...formData, username: e.target.value })
+            }
             style={{ color: "black", fontFamily: "PixelifySans" }}
             required
           />
@@ -82,9 +90,11 @@ function Login() {
             id="password"
             className="mt-1 p-2 rounded bg-gray-100 border border-gray-300 focus:outline-none"
             type="password"
-            value={password}
+            value={formData.password}
             placeholder="password"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
             style={{ color: "black", fontFamily: "PixelifySans" }}
             required
           />

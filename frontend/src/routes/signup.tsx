@@ -33,8 +33,8 @@ function SignUp() {
     e.preventDefault();
     mutate(formData, {
       onSuccess: (data) => {
-        console.log("Creation Success, data is ", data);
-        setUser("Example");
+        console.log("Signup Success, data is ", data.data.user_id);
+        setUser(data.data.user_id);
         navigate(gameLinkOption);
       },
     });
