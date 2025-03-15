@@ -11,15 +11,23 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as SignupImport } from './routes/signup'
 import { Route as LoginImport } from './routes/login'
 import { Route as GameImport } from './routes/game'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as GameIndexImport } from './routes/game/index'
 import { Route as GameSendImport } from './routes/game/send'
+import { Route as GameReadImport } from './routes/game/read'
 import { Route as GameFishingImport } from './routes/game/fishing'
 
 // Create/Update Routes
+
+const SignupRoute = SignupImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const LoginRoute = LoginImport.update({
   id: '/login',
@@ -54,6 +62,12 @@ const GameIndexRoute = GameIndexImport.update({
 const GameSendRoute = GameSendImport.update({
   id: '/send',
   path: '/send',
+  getParentRoute: () => GameRoute,
+} as any)
+
+const GameReadRoute = GameReadImport.update({
+  id: '/read',
+  path: '/read',
   getParentRoute: () => GameRoute,
 } as any)
 
@@ -95,11 +109,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupImport
+      parentRoute: typeof rootRoute
+    }
     '/game/fishing': {
       id: '/game/fishing'
       path: '/fishing'
       fullPath: '/game/fishing'
       preLoaderRoute: typeof GameFishingImport
+      parentRoute: typeof GameImport
+    }
+    '/game/read': {
+      id: '/game/read'
+      path: '/read'
+      fullPath: '/game/read'
+      preLoaderRoute: typeof GameReadImport
       parentRoute: typeof GameImport
     }
     '/game/send': {
@@ -123,12 +151,14 @@ declare module '@tanstack/react-router' {
 
 interface GameRouteChildren {
   GameFishingRoute: typeof GameFishingRoute
+  GameReadRoute: typeof GameReadRoute
   GameSendRoute: typeof GameSendRoute
   GameIndexRoute: typeof GameIndexRoute
 }
 
 const GameRouteChildren: GameRouteChildren = {
   GameFishingRoute: GameFishingRoute,
+  GameReadRoute: GameReadRoute,
   GameSendRoute: GameSendRoute,
   GameIndexRoute: GameIndexRoute,
 }
@@ -140,7 +170,9 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/game': typeof GameRouteWithChildren
   '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
   '/game/fishing': typeof GameFishingRoute
+  '/game/read': typeof GameReadRoute
   '/game/send': typeof GameSendRoute
   '/game/': typeof GameIndexRoute
 }
@@ -149,7 +181,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
   '/game/fishing': typeof GameFishingRoute
+  '/game/read': typeof GameReadRoute
   '/game/send': typeof GameSendRoute
   '/game': typeof GameIndexRoute
 }
@@ -160,7 +194,9 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/game': typeof GameRouteWithChildren
   '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
   '/game/fishing': typeof GameFishingRoute
+  '/game/read': typeof GameReadRoute
   '/game/send': typeof GameSendRoute
   '/game/': typeof GameIndexRoute
 }
@@ -172,18 +208,30 @@ export interface FileRouteTypes {
     | '/about'
     | '/game'
     | '/login'
+    | '/signup'
     | '/game/fishing'
+    | '/game/read'
     | '/game/send'
     | '/game/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/login' | '/game/fishing' | '/game/send' | '/game'
+  to:
+    | '/'
+    | '/about'
+    | '/login'
+    | '/signup'
+    | '/game/fishing'
+    | '/game/read'
+    | '/game/send'
+    | '/game'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/game'
     | '/login'
+    | '/signup'
     | '/game/fishing'
+    | '/game/read'
     | '/game/send'
     | '/game/'
   fileRoutesById: FileRoutesById
@@ -194,6 +242,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   GameRoute: typeof GameRouteWithChildren
   LoginRoute: typeof LoginRoute
+  SignupRoute: typeof SignupRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -201,6 +250,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   GameRoute: GameRouteWithChildren,
   LoginRoute: LoginRoute,
+  SignupRoute: SignupRoute,
 }
 
 export const routeTree = rootRoute
@@ -216,7 +266,8 @@ export const routeTree = rootRoute
         "/",
         "/about",
         "/game",
-        "/login"
+        "/login",
+        "/signup"
       ]
     },
     "/": {
@@ -229,6 +280,7 @@ export const routeTree = rootRoute
       "filePath": "game.tsx",
       "children": [
         "/game/fishing",
+        "/game/read",
         "/game/send",
         "/game/"
       ]
@@ -236,8 +288,15 @@ export const routeTree = rootRoute
     "/login": {
       "filePath": "login.tsx"
     },
+    "/signup": {
+      "filePath": "signup.tsx"
+    },
     "/game/fishing": {
       "filePath": "game/fishing.tsx",
+      "parent": "/game"
+    },
+    "/game/read": {
+      "filePath": "game/read.tsx",
       "parent": "/game"
     },
     "/game/send": {
