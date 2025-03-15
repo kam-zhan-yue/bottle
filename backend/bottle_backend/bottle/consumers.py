@@ -1,9 +1,14 @@
-
 import json
+from enum import Enum
 
-from channels.generic.websocket import AsyncWebsocketConsumer
-from utility import MessageAction
 from accounts.models import Bottle, Message
+from channels.generic.websocket import AsyncWebsocketConsumer
+
+
+class MessageAction(Enum):
+    CREATE = "CREATE"
+    REPLY = "REPLY"
+    RETURN = "RETURN"
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):        # Join room group
