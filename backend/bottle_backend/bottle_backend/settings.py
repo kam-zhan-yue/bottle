@@ -22,6 +22,8 @@ PASSWORD=os.getenv("DATABASE_PASSWORD")
 HOST=os.getenv("DATABASE_HOST")
 PORT=os.getenv("DATABASE_PORT")
 DATABASE_ENGINE=os.getenv("DATABASE_ENGINE")
+REDIS_HOST = os.environ.get('REDIS_HOST', 'redis')  # Use 'redis' as default (service name in docker-compose)
+REDIS_PORT = os.environ.get('REDIS_PORT', 6379)
 
 print("SDLKFJSDLKFJKLSD")
 print(NAME,USER,PASSWORD,HOST,PORT,DATABASE_ENGINE)
@@ -97,7 +99,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            "hosts": [(REDIS_HOST, REDIS_PORT)],
         },
     },
 }
