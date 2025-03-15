@@ -44,12 +44,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
         bottle_id = text_data_json.get('bottle_id','')
         already_received_id = text_data_json.get('already_received_id','').split(',')
 
-        broadcast_object = dict()
+        broadcast_object = {
+            'id': '1',
+            'send_to': '2'
+        }
 
         print(user_id, message, action, bottle_id, already_received_id)
         if action == MessageAction.CREATE:
             bottle = Bottle.objects.create(creator=self.user)
             Message.objects.create(text=message, sender=self.user, bottle=bottle)
+            print(bottle)
             broadcast_object['id'] = bottle.id
             broadcast_object['send_to'] = get_random_user()
         elif action == MessageAction.REPLY:
@@ -62,6 +66,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             broadcast_object['id'] = bottle.id
             broadcast_object['send_to'] = bottle.creator.id
         else:
+            print("shouldn't be here")
             pass
 
         print("GROUP SEND MOTHERFUCKER")
