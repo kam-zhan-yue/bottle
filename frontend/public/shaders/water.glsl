@@ -36,7 +36,7 @@ vec2 roundVec2(vec2 v) {
 }
 
 void main() {
-    vec2 uv = (10.0 * roundVec2(gl_FragCoord.xy / 10.0) + vec2(256.0, 256.0)) / resolution.xy;
+    vec2 uv = (8.0 * roundVec2(gl_FragCoord.xy / 8.0) + vec2(256.0, 256.0)) / resolution.xy;
 
     // More vibrant than the original!
     vec3 mainBlue = vec3(0.0, 0.7, 1.0);
@@ -44,7 +44,7 @@ void main() {
     vec3 foamColor = vec3(0.9, 1.0, 1.0);
 
     // I decided to use the second color, to fade the foam a bit more, which is why they'll share the same UV :)
-    float scale1 = 5.0;
+    float scale1 = 10.0;
     float distortion1Strength = 0.12;
     float distortion1Frequency = 6.0;
     float distortion1Speed = 1.6;
