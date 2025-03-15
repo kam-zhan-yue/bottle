@@ -28,6 +28,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = text_data_json['message']['user_id']
         print(text_data_json['message'])
         print(self.user.id)
+
+        # random, figure who to send to 
+
+        if self.user.id != text_data_json['message']['user_id']:
+            return
         # Send message to room group
         await self.channel_layer.group_send(
             "default",
