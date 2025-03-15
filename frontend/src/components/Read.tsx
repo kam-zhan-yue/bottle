@@ -1,26 +1,47 @@
 import letterbox from "../assets/letterbox.png";
 import closeButton from "../assets/close_button.png";
 import mailboxIcon from "../assets/mailbox.png";
-import bottleImage from "../assets/green_bottle.png";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { GameContext, GameContextType } from "../game/GameContext";
 import Overlay from "./Overlay";
 import { useRead } from "../api/hooks/read";
+import BottlePopup from "./BottlePopup";
+import { Bottle } from "../api/types/bottle";
+import BottlePage from "./BottlePage";
+import { SendJsonMessage } from "react-use-websocket/dist/lib/types";
 
 interface ReadProps {
+  sendJsonMessage: SendJsonMessage;
   onCancel?: () => void;
 }
 
-const Read = ({ onCancel }: ReadProps) => {
+const Read = ({ sendJsonMessage, onCancel }: ReadProps) => {
   const { island, user } = useContext(GameContext) as GameContextType;
-
-  const query = useRead(user);
-
-  console.log("Data is ", query.data);
+  const { isPending, isError, data, error } = useRead(user);
+  const [selectedBottle, setSelectedBottle] = useState<Bottle | null>(null);
 
   const onClick = () => {
     onCancel?.();
     island?.switchState("game");
+  };
+
+  if (isPending) {
+    return <span>Loading...</span>;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
+
+  const bottles: Bottle[] = data?.data || [];
+
+  const handleClick = (bottle: Bottle) => {
+    console.log(`Clicked on bottle: ${bottle.id}`);
+    setSelectedBottle(bottle);
+  };
+
+  const handleCloseBottlePage = () => {
+    setSelectedBottle(null);
   };
 
   return (
@@ -78,24 +99,24 @@ const Read = ({ onCancel }: ReadProps) => {
               Incoming
             </p>
 
-            <div className="flex gap-4 mt-2">
-              {/* placeholder for a bottel */}
-              <div className="flex flex-col items-center bg-[#E8C090] p-4 rounded-md shadow-md">
-                <span
-                  className="text-xs font-bold"
-                  style={{ fontFamily: "PixelifySans", color: "red" }}
-                >
-                  NEW
-                </span>
-                <img src={bottleImage} alt="Bottle" className="bottle" />
-                <p
-                  className="text-sm"
-                  style={{ fontFamily: "PixelifySans", color: "#4A3628" }}
-                >
-                  2min 04sec
-                </p>
+            {selectedBottle && (
+              <BottlePage
+                sendJsonMessage={sendJsonMessage}
+                bottle={selectedBottle}
+                onComplete={handleCloseBottlePage}
+              />
+            )}
+            {!selectedBottle && (
+              <div className="flex gap-4 mt-2">
+                {bottles.map((bottle) => (
+                  <BottlePopup
+                    key={bottle.id}
+                    bottle={bottle}
+                    onClick={handleClick}
+                  />
+                ))}
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
