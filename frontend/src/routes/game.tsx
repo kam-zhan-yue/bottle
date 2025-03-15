@@ -11,10 +11,9 @@ export const Route = createFileRoute("/game")({
 function Game() {
   const { island, user } = useContext(GameContext) as GameContextType;
 
-  const WS_URL = "ws://localhost:8080/ws";
-  const { sendJsonMessage } = useWebSocket(WS_URL, {
+  const WS_URL = "ws://localhost:8000/ws/chat/testroom/";
+  const { sendJsonMessage, lastJsonMessage } = useWebSocket(WS_URL, {
     share: true,
-    queryParams: { user },
   });
 
   useEffect(() => {
@@ -24,11 +23,23 @@ function Game() {
   }, [island]);
 
   useEffect(() => {
+    console.log("Send player");
+    sendJsonMessage({
+      message: "player is connected",
+    });
+  }, [sendJsonMessage]);
+
+  useEffect(() => {
     if (!user) return;
     sendJsonMessage({
-      body: "text",
+      message: "text",
     });
+    console.log("Sending text");
   }, [sendJsonMessage, user]);
+
+  if (lastJsonMessage) {
+    console.log("Last Json Message is ", lastJsonMessage);
+  }
 
   return (
     <Overlay>
