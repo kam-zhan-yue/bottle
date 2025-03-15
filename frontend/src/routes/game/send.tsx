@@ -10,7 +10,8 @@ function Send() {
     <Overlay>
       <div className="w-full h-full flex flex-col items-center justify-center">
         This is a send
-        <input type="text" />
+        <input className="bg-blue-900" type="text" />
+        <button onClick={() => {}}>Send!</button>
       </div>
     </Overlay>
   );

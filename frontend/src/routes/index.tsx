@@ -26,7 +26,7 @@ function Index() {
             {island && <p>Island Title: {island.title}</p>}
           </div>
           <div className="p-2">{island && <p>Time: {elapsedTime}</p>}</div>
-          <Link to="/game">Start</Link>
+          <Link to="/login">Login</Link>
         </div>
       </Overlay>
     </>
