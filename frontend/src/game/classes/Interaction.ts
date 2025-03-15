@@ -1,4 +1,5 @@
 import { InteractionType } from "../../utils/InteractionType";
+import { constants } from "../Constants";
 import GameImage from "./GameImage";
 
 export default class Interaction {
@@ -17,6 +18,7 @@ export default class Interaction {
     size: Phaser.Math.Vector2,
     imageKey: string | undefined = undefined,
     depth: number | undefined = undefined,
+    offset: number | undefined = undefined,
   ) {
     this.scene = scene;
     this.id = id;
@@ -27,14 +29,16 @@ export default class Interaction {
       new GameImage(this.scene, this.position, imageKey, depth);
     }
 
-    this.graphics = this.scene.add.graphics();
-    this.graphics.fillStyle(0x00ff00, 0.5);
-    this.graphics.fillRect(
-      this.getMinBound().x,
-      this.getMinBound().y,
-      this.size.x,
-      this.size.y,
-    );
+    if (constants.debug) {
+      this.graphics = this.scene.add.graphics();
+      this.graphics.fillStyle(0x00ff00, 0.5);
+      this.graphics.fillRect(
+        this.getMinBound().x,
+        this.getMinBound().y,
+        this.size.x,
+        this.size.y,
+      );
+    }
 
     this.tooltip = new GameImage(
       scene,
@@ -44,7 +48,7 @@ export default class Interaction {
     );
     this.tooltip.image.setPosition(
       this.position.x,
-      this.position.y - this.size.y / 2,
+      this.position.y - this.size.y / 2 + (offset || 0),
     );
     this.tooltip.image.setOrigin(0.5);
     this.tooltip.image.setVisible(false);

@@ -4,8 +4,8 @@ import Player from "../classes/Player";
 import InputHandler from "../classes/InputHandler";
 import createCharacterAnims from "../classes/AnimationHandler";
 import GameImage from "../classes/GameImage";
-import Interaction from "../classes/Interaction";
 import InteractionHandler from "../classes/InteractionHandler";
+import ObstacleHandler from "../classes/ObstacleHandler";
 
 export class Island extends Scene {
   public title: string;
@@ -14,6 +14,7 @@ export class Island extends Scene {
   public player!: Player;
   private inputHandler!: InputHandler;
   private interactionHandler!: InteractionHandler;
+  private obstacleHandler!: ObstacleHandler;
 
   constructor() {
     super({ key: "Island" });
@@ -24,29 +25,13 @@ export class Island extends Scene {
 
   setupGame() {
     this.inputHandler = new InputHandler(this);
-    this.interactionHandler = new InteractionHandler();
+    this.interactionHandler = new InteractionHandler(this);
+    this.obstacleHandler = new ObstacleHandler(this);
 
+    const shader = this.add.shader("water", 0, 0, 1280, 720);
+    shader.setDepth(-500);
     new GameImage(this, new Phaser.Math.Vector2(0, 0), "island", -100);
     new GameImage(this, new Phaser.Math.Vector2(-10, -50), "tree");
-
-    this.interactionHandler.add(
-      new Interaction(
-        this,
-        "mailbox",
-        new Phaser.Math.Vector2(-80, 10),
-        new Phaser.Math.Vector2(50, 50),
-        "mailbox",
-      ),
-    );
-
-    this.interactionHandler.add(
-      new Interaction(
-        this,
-        "note",
-        new Phaser.Math.Vector2(80, 10),
-        new Phaser.Math.Vector2(50, 50),
-      ),
-    );
   }
 
   setupAnimations() {
@@ -54,8 +39,10 @@ export class Island extends Scene {
   }
 
   initPlayer() {
-    if (!this.player)
+    if (!this.player) {
       this.player = new Player(this.physics, 0, 0, "player", this.inputHandler);
+      this.obstacleHandler.init(this.player);
+    }
   }
 
   create() {
@@ -72,7 +59,6 @@ export class Island extends Scene {
     this.cameras.main.centerOn(0, 0);
 
     if (!this.player) return;
-
     switch (this.state) {
       case "game":
         this.player.update();

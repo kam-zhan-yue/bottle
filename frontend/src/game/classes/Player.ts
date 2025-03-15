@@ -2,7 +2,7 @@ import InputHandler from "./InputHandler";
 
 export default class Player {
   private physics: Phaser.Physics.Arcade.ArcadePhysics;
-  private body: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+  public body: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
   private lastFacingDirection: "up" | "down" | "left" | "right";
   private inputHandler: InputHandler;
 

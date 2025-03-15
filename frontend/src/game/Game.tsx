@@ -3,6 +3,7 @@ import Phaser from "phaser";
 import { Boot } from "./scenes/Boot.tsx";
 import { Island } from "./scenes/Island.tsx";
 import { GameContext, GameContextType } from "./GameContext.tsx";
+import { constants } from "./Constants.ts";
 
 const Game = () => {
   const phaserGameRef = useRef<Phaser.Game>(null);
@@ -26,7 +27,7 @@ const Game = () => {
       physics: {
         default: "arcade",
         arcade: {
-          debug: true,
+          debug: constants.debug,
           gravity: { x: 0, y: 0 },
         },
       },
