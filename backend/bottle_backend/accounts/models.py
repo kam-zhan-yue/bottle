@@ -13,7 +13,6 @@ class Bottle(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     text=models.TextField()
     sender=models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    
 
 class Message(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
