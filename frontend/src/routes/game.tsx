@@ -3,6 +3,7 @@ import { useContext, useEffect } from "react";
 import { GameContext, GameContextType } from "../game/GameContext";
 import { EventBus } from "../EventBus";
 import Overlay from "../components/Overlay";
+import { WebSocketProvider } from "../contexts/WebSocketProvider";
 
 export const Route = createFileRoute("/game")({
   component: Game,
@@ -35,13 +36,14 @@ function Game() {
       EventBus.off("mailbox");
       EventBus.off("note");
     };
-  }, []);
+  }, [user, navigate]);
 
   return (
-    <Overlay>
-      <h1>Welcome {user}</h1>
-
-      <Outlet />
-    </Overlay>
+    <WebSocketProvider>
+      <Overlay>
+        <h1>Welcome {user}</h1>
+        <Outlet />
+      </Overlay>
+    </WebSocketProvider>
   );
 }
