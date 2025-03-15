@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useContext, useEffect, useState } from "react";
 import { GameContext, GameContextType } from "../game/GameContext";
 import { EventBus } from "../EventBus";
@@ -12,6 +12,15 @@ const WS_URL = "ws://localhost/ws/";
 
 export const Route = createFileRoute("/game")({
   component: Game,
+  loader: () => {
+    const userId = sessionStorage.getItem("userId");
+    if (!userId) {
+      redirect({
+        to: "/login",
+        throw: true,
+      });
+    }
+  },
 });
 
 function Game() {
