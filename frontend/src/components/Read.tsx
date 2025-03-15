@@ -5,6 +5,7 @@ import bottleImage from "../assets/green_bottle.png";
 import { useContext } from "react";
 import { GameContext, GameContextType } from "../game/GameContext";
 import Overlay from "./Overlay";
+import { useRead } from "../api/hooks/read";
 
 interface ReadProps {
   onCancel?: () => void;
@@ -12,6 +13,10 @@ interface ReadProps {
 
 const Read = ({ onCancel }: ReadProps) => {
   const { island } = useContext(GameContext) as GameContextType;
+
+  const query = useRead();
+
+  console.log("Data is ", query.data);
 
   const onClick = () => {
     onCancel?.();
