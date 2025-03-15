@@ -25,13 +25,19 @@ function SignUp() {
     username: "",
     password: "",
   });
-  const { mutate, isLoading, error, data } = useCreateAccount();
+  const { mutate } = useCreateAccount();
 
   const navigate = useNavigate();
 
-  const onSubmit = (username: string) => {
-    setUser(username);
-    navigate(gameLinkOption);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    mutate(formData, {
+      onSuccess: (data) => {
+        console.log("Creation Success, data is ", data);
+        setUser("Example");
+        navigate(gameLinkOption);
+      },
+    });
   };
 
   return (
@@ -52,13 +58,7 @@ function SignUp() {
           Create an account
         </p>
 
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            onSubmit(username);
-          }}
-          className="flex flex-col w-64"
-        >
+        <form onSubmit={handleSubmit} className="flex flex-col w-64">
           <label
             htmlFor="username"
             className="text-sm text-left mt-4"
