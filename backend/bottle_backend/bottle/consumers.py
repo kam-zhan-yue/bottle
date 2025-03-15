@@ -11,13 +11,12 @@ from django.contrib.auth.models import User
 class MessageAction(Enum):
     CREATE = "CREATE"
     REPLY = "REPLY"
-    RETURN = "RETURN"
+    FORWARD = "FORWARD"
 
 @sync_to_async
-def get_random_user():
-    bottles = Bottle.objects.only('id')
-    id_list = [bottle.id for bottle in bottles]
-    return random.choice(id_list)
+def get_random_user(bottle):
+    users = User.objects.exclude(id=bottle.creator.id).values_list('id', flat=True) 
+    return random.choice(list(users))
 
 @sync_to_async
 def get_user_by_id(user_id):
@@ -53,45 +52,38 @@ class ChatConsumer(AsyncWebsocketConsumer):
         bottle_id = text_data_json.get('bottle_id','')
         already_received_id = text_data_json.get('already_received_id','').split(',')
 
-        broadcast_object = {
-            'id': '1',
-            'send_to': '2'
-        }
-
+        broadcast_object = dict()
         user_instance = await get_user_by_id(self.user.id)
 
         print(user_id, message, action, bottle_id, already_received_id)
         if action == MessageAction.CREATE.value:
-            bottle = Bottle.objects.create(creator=user_instance)
-            Message.objects.create(text=message, sender=user_instance, bottle=bottle)
-            print(bottle)
-            broadcast_object['id'] = bottle.id
-            broadcast_object['send_to'] = await get_random_user()
+            bottle = await sync_to_async(Bottle.objects.create)(creator=user_instance)
+            await sync_to_async(Message.objects.create)(text=message, sender=user_instance, bottle=bottle)
+            broadcast_object["bottle_id"] = bottle.id
+            broadcast_object["receiver_id"] = await get_random_user(bottle)
         elif action == MessageAction.REPLY.value:
-            bottle = Bottle.objects.get(id=bottle_id)
-            Message.objects.create(text=message, sender=user_instance, bottle=bottle)
-            broadcast_object['id'] = bottle.id
-            broadcast_object['send_to'] = await get_random_user()
-        elif action == MessageAction.RETURN.value:
-            bottle = Bottle.objects.get(id=bottle_id)
-            broadcast_object['id'] = bottle.id
-            broadcast_object['send_to'] = bottle.creator.id
+            bottle = await sync_to_async(Bottle.objects.get)(id=bottle_id)
+            await sync_to_async(Message.objects.create)(text=message, sender=user_instance, bottle=bottle)
+            broadcast_object["bottle_id"] = bottle.id
+            broadcast_object["receiver_id"] = bottle.creator.id
+        elif action == MessageAction.FORWARD.value:
+            bottle = await sync_to_async(Bottle.objects.get)(id=bottle_id)
+            broadcast_object["bottle_id"] = bottle.id
+            broadcast_object["receiver_id"] = await get_random_user(bottle)
         else:
             print("shouldn't be here")
-            pass
+            
 
-        print("GROUP SEND MOTHERFUCKER")
-        print(broadcast_object)
         await self.channel_layer.group_send(
             "default",
             {
-                'type': 'chat_message',
-                'message': broadcast_object
+                'type': 'action',
+                'message': {k: str(v) for k, v in broadcast_object.items()}
             }
         )
 
     # Receive message from room group
-    async def chat_message(self, event):
+    async def action(self, event):
         message = event['message']
 
         # Send message to WebSocket

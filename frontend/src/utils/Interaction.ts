@@ -1,7 +1,7 @@
 enum MessageAction {
   CREATE = "CREATE",
   REPLY = "REPLY",
-  RETURN = "RETURN",
+  FORWARD = "FORWARD",
 }
 
 export { MessageAction };
