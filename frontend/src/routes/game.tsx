@@ -1,14 +1,14 @@
-import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
-import { useContext, useEffect } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useContext, useEffect, useState } from "react";
 import { GameContext, GameContextType } from "../game/GameContext";
 import { EventBus } from "../EventBus";
 import Overlay from "../components/Overlay";
-import { WebSocketProvider } from "../contexts/WebSocketProvider";
-import {
-  WebSocketContext,
-  WebSocketContextType,
-} from "../contexts/WebSocketContext";
 import { InteractionType } from "../utils/InteractionType";
+import Read from "../components/Read";
+import Send from "../components/Send";
+import useWebSocket from "react-use-websocket";
+
+const WS_URL = "ws://localhost/ws/";
 
 export const Route = createFileRoute("/game")({
   component: Game,
@@ -17,18 +17,19 @@ export const Route = createFileRoute("/game")({
 function Game() {
   const { island, user } = useContext(GameContext) as GameContextType;
   const navigate = useNavigate();
+  const [state, setState] = useState<"game" | "read" | "send">("game");
 
-  const { message: webMessage } = useContext(
-    WebSocketContext,
-  ) as WebSocketContextType;
+  const { sendJsonMessage, lastJsonMessage } = useWebSocket(WS_URL, {
+    share: true,
+  });
 
   useEffect(() => {
-    if (webMessage) {
-      console.log("Game Received message:", webMessage);
+    if (lastJsonMessage) {
+      console.log("Game Received message:", lastJsonMessage);
     } else {
       console.log("Game No message received");
     }
-  }, [webMessage]);
+  }, [lastJsonMessage]);
 
   useEffect(() => {
     if (island) {
@@ -46,12 +47,12 @@ function Game() {
     };
 
     registerEvent("mailbox", () => {
-      navigate({ to: "/game/read" });
+      setState("read");
       island?.switchState("ui");
     });
 
     registerEvent("note", () => {
-      navigate({ to: "/game/send" });
+      setState("send");
       island?.switchState("ui");
     });
 
@@ -59,14 +60,19 @@ function Game() {
       unregisterEvent("mailbox");
       unregisterEvent("note");
     };
-  }, [user, navigate]);
+  }, [user, navigate, island]);
+
+  const backToGame = () => {
+    setState("game");
+  };
 
   return (
-    <WebSocketProvider>
-      <Overlay>
-        <h1>Welcome {user}</h1>
-        <Outlet />
-      </Overlay>
-    </WebSocketProvider>
+    <Overlay>
+      <h1>Welcome {user}</h1>
+      {state === "read" && <Read onCancel={backToGame} />}
+      {state === "send" && (
+        <Send sendJsonMessage={sendJsonMessage} onCancel={backToGame} />
+      )}
+    </Overlay>
   );
 }
