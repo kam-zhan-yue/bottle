@@ -15,4 +15,4 @@ class MessageSerializer(serializers.ModelSerializer):
 class BottleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bottle
-        fields = '__all__'
+        fields = ['id', 'creator']

@@ -12,9 +12,9 @@ interface ReadProps {
 }
 
 const Read = ({ onCancel }: ReadProps) => {
-  const { island } = useContext(GameContext) as GameContextType;
+  const { island, user } = useContext(GameContext) as GameContextType;
 
-  const query = useRead();
+  const query = useRead(user);
 
   console.log("Data is ", query.data);
 

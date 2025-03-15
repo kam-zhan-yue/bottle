@@ -1,17 +1,52 @@
+import json
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.http import HttpResponse
+
+from django.contrib.auth.models import User
+from accounts.models import Bottle
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework import status
 
 
 # Create your views here.
 def index(request):
     return HttpResponse("Hello World")
-from django.http import HttpResponse
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def bottles_for_user(request, user_id):
+    bottle_list = [
+        {"id": 1, "name": "Bottle 1", "description": "This is a sample bottle."},
+        {"id": 2, "name": "Bottle 2", "description": "Another sample bottle."},
+        {"id": 3, "name": "Bottle 3", "description": "Yet another sample bottle."}
+    ]
+
+    return Response({"bottles": bottle_list}, status=status.HTTP_200_OK)
+    try:
+        user = User.objects.get(id=user_id)
+
+        # Retrieve the user
+        # Get all bottles related to this user (assuming you have a ForeignKey relationship)
+        bottles = Bottle.objects.filter(creator=user)
+
+        # Serialize the bottles data (assuming you have a Bottle serializer)
+        bottle_list = [{"id": bottle.id, "name": bottle.name, "description": bottle.description} for bottle in bottles]
+        return json.dumps({"bottles": bottle_list}, status=200)
+
+
+    except User.DoesNotExist:
+        return json.dumps({"error": "User not found"}, status=404)
 
 
 def websocket_test(request):
     # Add the server's host and port to help with debugging
     host = request.get_host()
-    
+
     html = f"""
     <!DOCTYPE html>
     <html>
@@ -51,79 +86,79 @@ def websocket_test(request):
 
         <script>
             let socket = null;
-            
+
             function connectWebSocket() {{
                 const roomName = document.getElementById('roomInput').value;
                 if (!roomName) {{
                     alert('Please enter a room name');
                     return;
                 }}
-                
+
                 // Close existing connection if any
                 if (socket) {{
                     socket.close();
                 }}
-                
+
                 // Create new WebSocket connection
                 const wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
                 const wsUrl = wsProtocol + window.location.host + '/ws/';
-                
+
                 addMessage('Debug', 'Connecting to: ' + wsUrl);
-                
+
                 socket = new WebSocket(wsUrl);
-                
+
                 document.getElementById('connection-status').textContent = 'Status: Connecting...';
-                
+
                 socket.onopen = function(e) {{
                     document.getElementById('connection-status').textContent = 'Status: Connected to ' + roomName;
                     addMessage('System', 'Connected to room: ' + roomName);
                 }};
-                
+
                 socket.onmessage = function(e) {{
                     const data = JSON.parse(e.data);
                     addMessage('Received', data.message);
                 }};
-                
+
                 socket.onclose = function(e) {{
                     document.getElementById('connection-status').textContent = 'Status: Disconnected';
                     addMessage('System', 'Disconnected from WebSocket. Code: ' + e.code + ', Reason: ' + e.reason);
                 }};
-                
+
                 socket.onerror = function(e) {{
                     document.getElementById('connection-status').textContent = 'Status: Error';
                     addMessage('Error', 'WebSocket error occurred');
                     console.error('WebSocket error:', e);
                 }};
             }}
-            
+
             function disconnectWebSocket() {{
                 if (socket) {{
                     socket.close();
                     socket = null;
                 }}
             }}
-            
+
             function sendMessage() {{
                 if (!socket || socket.readyState !== WebSocket.OPEN) {{
                     alert('WebSocket is not connected');
                     return;
                 }}
-                
+
                 const messageInput = document.getElementById('messageInput');
                 const message = messageInput.value;
                 if (!message) {{
                     alert('Please enter a message');
                     return;
                 }}
-                
+
                 socket.send(JSON.stringify({{
                     'message': message
                 }}));
-                
+
                 addMessage('Sent', message);
                 messageInput.value = '';
             }}
-            
+
             function addMessage(type, message) {{
                 const messagesDiv = document.getElementById('messages');
                 const messageElement = document.createElement('div');
@@ -145,7 +180,7 @@ def websocket_test(request):
 
 # def get_bottle(request, bottle_id):
 #     # bottle = Bottle.objects.all()
-#     return 
+#     return
 
 # def get_message(request, message_id):
 #     return
