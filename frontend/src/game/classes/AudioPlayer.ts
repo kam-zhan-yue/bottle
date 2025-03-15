@@ -10,7 +10,6 @@ export default class AudioPlayer {
   }
 
   public playBgm(bgmKey: string) {
-    console.log(`play ${bgmKey}`)
     // If the requested BGM is already playing, do nothing
     if (this.currentBgmKey === bgmKey && this.bgm && this.bgm.isPlaying) {
       return;
@@ -25,7 +24,7 @@ export default class AudioPlayer {
   }
 
   public stop() {
-    const bgm = this.bgm
+    const bgm = this.bgm;
     if (!bgm) return;
     this.scene.tweens.add({
       targets: bgm,
@@ -35,12 +34,11 @@ export default class AudioPlayer {
         bgm.stop();
         this.bgm = null;
         this.currentBgmKey = null;
-      }
+      },
     });
   }
 
   private crossfade(newKey: string) {
-    console.log('crossfade');
     const oldBgm = this.bgm;
     if (!oldBgm) return;
 
@@ -50,10 +48,9 @@ export default class AudioPlayer {
       volume: 0,
       duration: 2000,
       onComplete: () => {
-        console.log('fade in the new key');
         oldBgm.stop();
         this.fade(newKey);
-      }
+      },
     });
   }
 
@@ -71,5 +68,4 @@ export default class AudioPlayer {
     this.bgm = newBgm;
     this.currentBgmKey = bgm;
   }
-
 }
