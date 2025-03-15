@@ -4,39 +4,42 @@ export default class Player {
   private physics: Phaser.Physics.Arcade.ArcadePhysics;
   private body: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
   private lastFacingDirection: "up" | "down" | "left" | "right";
+  private inputHandler: InputHandler;
 
   constructor(
     physics: Phaser.Physics.Arcade.ArcadePhysics,
     x: number,
     y: number,
     textureKey: string,
+    inputHandler: InputHandler,
   ) {
     this.physics = physics;
     this.lastFacingDirection = "down";
-    this.body = this.physics.add.sprite(x, y, textureKey, "down_idle_1.png");
+    this.body = this.physics.add.sprite(x, y, textureKey);
+    this.inputHandler = inputHandler;
   }
 
-  checkInputs(inputHandler: InputHandler) {
+  checkInputs() {
     const speed = 100;
 
     let x: number = 0;
     let y: number = 0;
 
     //Handle speed
-    if (inputHandler.isLeft()) {
+    if (this.inputHandler.isLeft()) {
       x = -speed;
       this.body.setVelocity(-speed, 0);
       this.lastFacingDirection = "left";
-    } else if (inputHandler.isRight()) {
+    } else if (this.inputHandler.isRight()) {
       x = speed;
       this.body.setVelocity(speed, 0);
       this.lastFacingDirection = "right";
     }
-    if (inputHandler.isUp()) {
+    if (this.inputHandler.isUp()) {
       y = -speed;
       this.body.setVelocity(0, -speed);
       this.lastFacingDirection = "up";
-    } else if (inputHandler.isDown()) {
+    } else if (this.inputHandler.isDown()) {
       y = speed;
       this.body.setVelocity(0, speed);
       this.lastFacingDirection = "down";
@@ -69,5 +72,10 @@ export default class Player {
         this.body.anims.play("player-idle-right", true);
         break;
     }
+  }
+
+  update() {
+    this.checkInputs();
+    this.body.depth = this.body.y + this.body.height / 2;
   }
 }

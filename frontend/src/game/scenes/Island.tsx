@@ -2,6 +2,8 @@ import { Scene } from "phaser";
 import { EventBus } from "../../EventBus";
 import Player from "../classes/Player";
 import InputHandler from "../classes/InputHandler";
+import createCharacterAnims from "../classes/AnimationHandler";
+import GameImage from "../classes/GameImage";
 
 export class Island extends Scene {
   public title: string;
@@ -19,32 +21,33 @@ export class Island extends Scene {
 
   setupGame() {
     this.inputHandler = new InputHandler(this);
-    this.player = new Player(this.physics, 0, 0, "player");
-    this.add.image(0, 0, "island");
-    this.add.image(0, 0, "tree");
+    new GameImage(this, 0, 0, "island", -100);
+    new GameImage(this, 0, 0, "tree");
+    this.player = new Player(this.physics, 0, 0, "player", this.inputHandler);
+  }
+
+  setupAnimations() {
+    createCharacterAnims(this.anims);
   }
 
   create() {
     this.setupGame();
+    this.setupAnimations();
     this.cameras.main.centerOn(0, 0);
     this.cameras.main.zoom = 3.0;
   }
 
-  checkInputs() {
+  update(_time: number, delta: number) {
+    this.elapsedTime += delta;
+    EventBus.emit("update", this.elapsedTime);
+    // To fix the screen repositioning issue
+    this.cameras.main.centerOn(0, 0);
     switch (this.state) {
       case "game":
-        this.player?.checkInputs(this.inputHandler);
+        this.player.update();
         break;
       case "ui":
         break;
     }
-  }
-
-  handleInputs() {}
-
-  update(_time: number, delta: number) {
-    this.elapsedTime += delta;
-    EventBus.emit("update", this.elapsedTime);
-    this.checkInputs();
   }
 }
