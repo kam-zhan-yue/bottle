@@ -39,9 +39,7 @@ SECRET_KEY = 'django-insecure-$%xcz$7gi@$1p_&-!@rm96%*^#bcx&!ett1u&xk42*_v3d=82&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["bottle-backend.eba-vbbwx49g.ap-southeast-2.elasticbeanstalk.com"]
-
-
+ALLOWED_HOSTS = ["bottle-backend.eba-vbbwx49g.ap-southeast-2.elasticbeanstalk.com", "localhost"]
 # Application definition
 
 INSTALLED_APPS = [
@@ -69,10 +67,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware'
-]
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React default port
 ]
 
 ROOT_URLCONF = 'bottle_backend.urls'
