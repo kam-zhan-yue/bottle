@@ -11,12 +11,15 @@ export default class InputHandler {
     this.cursors = scene.input.keyboard
       ? scene.input.keyboard.createCursorKeys()
       : ({} as Phaser.Types.Input.Keyboard.CursorKeys);
-    this.wasd = scene.input.keyboard?.addKeys({
-      up: Phaser.Input.Keyboard.KeyCodes.W,
-      down: Phaser.Input.Keyboard.KeyCodes.S,
-      left: Phaser.Input.Keyboard.KeyCodes.A,
-      right: Phaser.Input.Keyboard.KeyCodes.D,
-    }) as {
+    this.wasd = scene.input.keyboard?.addKeys(
+      {
+        up: Phaser.Input.Keyboard.KeyCodes.W,
+        down: Phaser.Input.Keyboard.KeyCodes.S,
+        left: Phaser.Input.Keyboard.KeyCodes.A,
+        right: Phaser.Input.Keyboard.KeyCodes.D,
+      },
+      false,
+    ) as {
       up: Phaser.Input.Keyboard.Key;
       down: Phaser.Input.Keyboard.Key;
       left: Phaser.Input.Keyboard.Key;
