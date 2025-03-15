@@ -1,6 +1,6 @@
 import json
-from enum import Enum
 import random
+from enum import Enum
 
 from accounts.models import Bottle, Message
 from channels.generic.websocket import AsyncWebsocketConsumer
@@ -65,9 +65,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
             pass
 
         print("GROUP SEND MOTHERFUCKER")
+        print(broadcast_object)
         await self.channel_layer.group_send(
             "default",
-            json.dumps(broadcast_object)
+            {
+                'type': 'chat_message',
+                'message': broadcast_object
+            }
         )
 
     # Receive message from room group
