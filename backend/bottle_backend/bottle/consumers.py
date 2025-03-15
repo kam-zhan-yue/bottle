@@ -49,19 +49,22 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'send_to': '2'
         }
 
+        # Trigger lazy loading of user
+        a = str(self.user)
+
         print(user_id, message, action, bottle_id, already_received_id)
-        if action == MessageAction.CREATE:
+        if action == MessageAction.CREATE.value:
             bottle = Bottle.objects.create(creator=self.user)
             Message.objects.create(text=message, sender=self.user, bottle=bottle)
             print(bottle)
             broadcast_object['id'] = bottle.id
             broadcast_object['send_to'] = get_random_user()
-        elif action == MessageAction.REPLY:
+        elif action == MessageAction.REPLY.value:
             bottle = Bottle.objects.get(id=bottle_id)
             Message.objects.create(text=message, sender=self.user, bottle=bottle)
             broadcast_object['id'] = bottle.id
             broadcast_object['send_to'] = get_random_user()
-        elif action == MessageAction.RETURN:
+        elif action == MessageAction.RETURN.value:
             bottle = Bottle.objects.get(id=bottle_id)
             broadcast_object['id'] = bottle.id
             broadcast_object['send_to'] = bottle.creator.id
