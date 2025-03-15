@@ -2,7 +2,7 @@
 import json
 
 from channels.generic.websocket import AsyncWebsocketConsumer
-
+from utility import MessageAction
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):        # Join room group
@@ -11,7 +11,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.channel_name,
         )
         self.user = self.scope["user"]
-            
+
         await self.accept()
 
     async def disconnect(self, close_code):
@@ -19,20 +19,25 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_discard(
             "default",
             self.channel_name,
-         
+
         )
 
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = text_data_json['message']['user_id']
+        user_id = text_data_json.get('user_id','')
+        message = text_data_json.get('message','')
+        action = text_data_json.get('action','')
+
+        if action == MessageAction.CREATE:
+            pass
+        elif action == MessageAction.REPLY:
+            pass
+        else:
+            pass
+
         print(text_data_json['message'])
         print(self.user.id)
-
-        # random, figure who to send to 
-
-        if self.user.id != text_data_json['message']['user_id']:
-            return
         # Send message to room group
         await self.channel_layer.group_send(
             "default",
