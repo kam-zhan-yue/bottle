@@ -8,6 +8,8 @@ import { useContext, useState } from "react";
 import { GameContext, GameContextType } from "../game/GameContext";
 import logo from "../assets/bottle.png";
 import "../index.css";
+import { useCreateAccount } from "../api/hooks/register";
+import { Account } from "../api/types/account";
 
 export const Route = createFileRoute("/signup")({
   component: SignUp,
@@ -19,8 +21,12 @@ const gameLinkOption = linkOptions({
 
 function SignUp() {
   const { setUser } = useContext(GameContext) as GameContextType;
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [formData, setFormData] = useState<Account>({
+    username: "",
+    password: "",
+  });
+  const { mutate, isLoading, error, data } = useCreateAccount();
+
   const navigate = useNavigate();
 
   const onSubmit = (username: string) => {
@@ -64,9 +70,11 @@ function SignUp() {
             id="username"
             className="mt-1 p-2 rounded bg-gray-100 border border-gray-300 focus:outline-none"
             type="text"
-            value={username}
+            value={formData.username}
             placeholder="username"
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) =>
+              setFormData({ ...formData, username: e.target.value })
+            }
             style={{ color: "black", fontFamily: "PixelifySans" }}
             required
           />
@@ -82,9 +90,11 @@ function SignUp() {
             id="password"
             className="mt-1 p-2 rounded bg-gray-100 border border-gray-300 focus:outline-none"
             type="password"
-            value={password}
+            value={formData.password}
             placeholder="password"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
             style={{ color: "black", fontFamily: "PixelifySans" }}
             required
           />
@@ -100,9 +110,11 @@ function SignUp() {
             id="password"
             className="mt-1 p-2 rounded bg-gray-100 border border-gray-300 focus:outline-none"
             type="password"
-            value={password}
+            value={formData.password}
             placeholder="password again"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
             style={{ color: "black", fontFamily: "PixelifySans" }}
             required
           />

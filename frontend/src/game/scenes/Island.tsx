@@ -7,6 +7,7 @@ import GameImage from "../classes/GameImage";
 import InteractionHandler from "../classes/InteractionHandler";
 import ObstacleHandler from "../classes/ObstacleHandler";
 import BottleHandler from "../classes/BottleHandler";
+import AudioPlayer from "../classes/AudioPlayer";
 
 export class Island extends Scene {
   public title: string;
@@ -17,12 +18,14 @@ export class Island extends Scene {
   private interactionHandler!: InteractionHandler;
   private obstacleHandler!: ObstacleHandler;
   private bottleHandler!: BottleHandler;
+  private audioPlayer: AudioPlayer;
 
   constructor() {
     super({ key: "Island" });
     this.title = "This is a title";
     this.elapsedTime = 0;
     this.state = "game";
+    this.audioPlayer = new AudioPlayer(this);
   }
 
   setupGame() {
