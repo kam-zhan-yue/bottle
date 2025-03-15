@@ -6,7 +6,7 @@ export const useRead = (userId: string) => {
   return useQuery({
     queryKey: ["read", userId], // Include userId in the queryKey for cache purposes
     queryFn: () => {
-      return axios.get(`${BASE_URL}/accounts/users/`, {});
+      return axios.get(`${BASE_URL}/api/bottles-for-user/${userId}/`, {});
     },
   });
 };
