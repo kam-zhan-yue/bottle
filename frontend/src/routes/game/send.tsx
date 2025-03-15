@@ -19,16 +19,19 @@ export const Route = createFileRoute("/game/send")({
 function Send() {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
-
   const { sendJsonMessage, lastJsonMessage } = useContext(
     WebSocketContext,
   ) as WebSocketContextType;
 
-  const { user } = useContext(GameContext) as GameContextType;
-
   useEffect(() => {
-    console.log("Last JSON Message is ", lastJsonMessage);
+    if (lastJsonMessage) {
+      console.log("Send Received message:", lastJsonMessage);
+    } else {
+      console.log("Send No message received");
+    }
   }, [lastJsonMessage]);
+
+  const { user } = useContext(GameContext) as GameContextType;
 
   const onSubmit = (message: string) => {
     console.log("Sending ", message);

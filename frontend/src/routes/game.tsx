@@ -4,6 +4,10 @@ import { GameContext, GameContextType } from "../game/GameContext";
 import { EventBus } from "../EventBus";
 import Overlay from "../components/Overlay";
 import { WebSocketProvider } from "../contexts/WebSocketProvider";
+import {
+  WebSocketContext,
+  WebSocketContextType,
+} from "../contexts/WebSocketContext";
 
 export const Route = createFileRoute("/game")({
   component: Game,
@@ -11,6 +15,17 @@ export const Route = createFileRoute("/game")({
 
 function Game() {
   const { island, user } = useContext(GameContext) as GameContextType;
+  const { lastJsonMessage } = useContext(
+    WebSocketContext,
+  ) as WebSocketContextType;
+  useEffect(() => {
+    if (lastJsonMessage) {
+      console.log("Game: Received message:", lastJsonMessage);
+    } else {
+      console.log("Game: No message received");
+    }
+  }, [lastJsonMessage]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
