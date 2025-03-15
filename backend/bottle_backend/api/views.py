@@ -5,8 +5,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework import status
 from django.http import HttpResponse
 
-from accounts.models import Bottle, User
-from .serializers import InboxSerializer
+from accounts.models import Bottle, Message
+from .serializers import InboxSerializer, MessageSerializer
 # Create your views here.
 
 def index(request):
@@ -17,25 +17,15 @@ def index(request):
 def received_bottles(request, user_id):
     bottled_query = Bottle.objects.filter(receiver=user_id)
     serializer = InboxSerializer(bottled_query, many=True)
-
-    return Response(serializer.data)
-    bottle_list = [
-        {"id": 1, "name": "Bottle 1", "description": "This is a sample bottle."},
-        {"id": 2, "name": "Bottle 2", "description": "Another sample bottle."},
-        {"id": 3, "name": "Bottle 3", "description": "Yet another sample bottle."}
-    ]
-
-    return Response({"bottles": bottle_list}, status=status.HTTP_200_OK)
-    # try:
-    #     user = User.objects.get(id=user_id)
-
-    #     # Retrieve the user
-    #     # Get all bottles related to this user (assuming you have a ForeignKey relationship)
-    #     bottles = Bottle.objects.filter(creator=user)
-
-    #     # Serialize the bottles data (assuming you have a Bottle serializer)
-    #     bottle_list = [{"id": bottle.id, "name": bottle.name, "description": bottle.description} for bottle in bottles]
-    #     return json.dumps({"bottles": bottle_list}, status=200)
-
-    # except User.DoesNotExist:
-    #     return json.dumps({"error": "User not found"}, status=404)
+    
+    output = []
+    for bottle in serializer.data:
+        bottle_out = {
+            "bottle_id": bottle["id"],
+            "messages": []
+        }
+        message_query = Message.objects.filter(bottle=bottle["id"])
+        message_serializer = MessageSerializer(message_query, many=True)
+        bottle_out["messages"].append(message_serializer.data)
+        output.append(bottle_out)
+    return Response(output)

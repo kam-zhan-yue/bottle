@@ -1,7 +1,12 @@
-from accounts.models import Bottle
+from accounts.models import Bottle, Message
 from rest_framework import serializers
 
 class InboxSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bottle
-        fields = '__all__'
+        fields = ['id']
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = ['id','text','sender','created_at']
