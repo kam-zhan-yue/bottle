@@ -1,1 +1,1 @@
-export type InteractionType = "mailbox" | "note";
+export type InteractionType = "mailbox" | "note" | "bottle";

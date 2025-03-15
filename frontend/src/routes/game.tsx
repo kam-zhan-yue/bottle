@@ -18,18 +18,27 @@ function Game() {
   const { island, user } = useContext(GameContext) as GameContextType;
   const navigate = useNavigate();
   const [state, setState] = useState<"game" | "read" | "send">("game");
-
   const { sendJsonMessage, lastJsonMessage } = useWebSocket(WS_URL, {
     share: true,
   });
+  const [sentBottles, setSentBottles] = useState<string[]>([]);
 
   useEffect(() => {
     if (lastJsonMessage) {
       console.log("Game Received message:", lastJsonMessage);
+      const newId = "test_id";
+      island?.spawnBottle(newId);
+
+      setSentBottles((prevBottles) => {
+        if (!prevBottles.includes(newId)) {
+          return [...prevBottles, newId];
+        }
+        return prevBottles;
+      });
     } else {
       console.log("Game No message received");
     }
-  }, [lastJsonMessage]);
+  }, [island, lastJsonMessage, setSentBottles]);
 
   useEffect(() => {
     if (island) {
@@ -38,7 +47,10 @@ function Game() {
   }, [island]);
 
   useEffect(() => {
-    const registerEvent = (event: InteractionType, fn: () => void) => {
+    const registerEvent = (
+      event: InteractionType,
+      fn: (id?: string) => void,
+    ) => {
       EventBus.on(event, fn);
     };
 
@@ -56,11 +68,19 @@ function Game() {
       island?.switchState("ui");
     });
 
+    registerEvent("bottle", (id?: string) => {
+      console.log(`Bottle ${id} has reached the island!`);
+      setSentBottles((prevBottles) =>
+        prevBottles.filter((bottleId) => bottleId !== id),
+      );
+    });
+
     return () => {
       unregisterEvent("mailbox");
       unregisterEvent("note");
+      unregisterEvent("bottle");
     };
-  }, [user, navigate, island]);
+  }, [user, navigate, island, setSentBottles]);
 
   const backToGame = () => {
     setState("game");

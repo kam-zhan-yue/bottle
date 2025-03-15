@@ -41,12 +41,16 @@ export class Island extends Scene {
     createCharacterAnims(this.anims);
   }
 
+  spawnBottle(id: string) {
+    console.log(`GAME | Spawning Bottle ${id}`);
+    this.bottleHandler.spawnBottle(id);
+  }
+
   initPlayer() {
     if (!this.player) {
       this.player = new Player(this.physics, 0, 0, "player", this.inputHandler);
       this.obstacleHandler.init(this.player);
       this.cameras.main.startFollow(this.player.body, false, 0.4, 0.4);
-      this.bottleHandler.spawnBottle("test");
     }
   }
 
@@ -58,12 +62,10 @@ export class Island extends Scene {
 
   switchState(state: string) {
     if (state === "ui") {
-      this.state = "ui"
+      this.state = "ui";
+    } else if (state === "game") {
+      this.state = "game";
     }
-    else if (state === "game") {
-      this.state = "game"
-    }
-
   }
 
   update(_time: number, delta: number) {
@@ -86,7 +88,6 @@ export class Island extends Scene {
       const interaction = this.interactionHandler.getCurrentInteraction(
         this.player.getPos(),
       );
-      console.log(interaction);
       if (interaction) {
         EventBus.emit(interaction.id);
       }
