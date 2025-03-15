@@ -4,4 +4,6 @@ export const constants = {
   bobFrequency: 2,
   bobAmplitude: 0.1,
   spawnDistance: 800,
+  sendBottleId: "SEND_BOTTLE",
+  sendBottleLifetime: 10000,
 };

@@ -46,6 +46,11 @@ export class Island extends Scene {
     this.bottleHandler.spawnBottle(id);
   }
 
+  sendBottle() {
+    console.log("GAME | Sending Bottle");
+    this.bottleHandler.sendBottle();
+  }
+
   initPlayer() {
     if (!this.player) {
       this.player = new Player(this.physics, 0, 0, "player", this.inputHandler);

@@ -25,6 +25,7 @@ const Send = ({ sendJsonMessage, onCancel }: SendProps) => {
       message,
     });
     onCancel?.();
+    island?.sendBottle();
     island?.switchState("game");
   };
 

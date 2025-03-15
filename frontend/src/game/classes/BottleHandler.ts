@@ -11,7 +11,7 @@ export default class BottleHandler {
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
     this.position = new Phaser.Math.Vector2(0, 0);
-    this.size = new Phaser.Math.Vector2(225, 175);
+    this.size = new Phaser.Math.Vector2(215, 150);
 
     if (constants.debug) {
       const graphics = this.scene.add.graphics();
@@ -41,6 +41,18 @@ export default class BottleHandler {
     return new Phaser.Math.Vector2(spawnX, spawnY);
   }
 
+  sendBottle() {
+    const bottle = new Bottle(
+      constants.sendBottleId,
+      this.scene,
+      // Hard coded spawn point
+      new Phaser.Math.Vector2(100, 0),
+      // Hard coded destination
+      new Phaser.Math.Vector2(1000, 0),
+    );
+    this.bottles.push(bottle);
+  }
+
   spawnBottle(id: string) {
     const bottle = new Bottle(
       id,
@@ -62,7 +74,8 @@ export default class BottleHandler {
 
   update(delta: number) {
     for (const bottle of this.bottles) {
-      if (this.contains(bottle)) {
+      // Only catch received bottles
+      if (this.contains(bottle) && bottle.getId() !== constants.sendBottleId) {
         bottle.fadeOut();
       } else {
         bottle.update(delta);
@@ -70,7 +83,10 @@ export default class BottleHandler {
     }
     for (let i = this.bottles.length - 1; i >= 0; i--) {
       if (this.bottles[i].isDead()) {
-        EventBus.emit("bottle", this.bottles[i].getId());
+        // Only emit an event on received bottles
+        if (this.bottles[i].getId() !== constants.sendBottleId)
+          EventBus.emit("bottle", this.bottles[i].getId());
+
         this.bottles.splice(i, 1); // Remove the dead bottle
       }
     }
