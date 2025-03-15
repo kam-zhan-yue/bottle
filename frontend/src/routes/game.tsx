@@ -9,13 +9,19 @@ export const Route = createFileRoute("/game")({
 });
 
 function Game() {
-  const { user } = useContext(GameContext) as GameContextType;
+  const { island, user } = useContext(GameContext) as GameContextType;
 
   const WS_URL = "ws://localhost:8080/ws";
   const { sendJsonMessage } = useWebSocket(WS_URL, {
     share: true,
     queryParams: { user },
   });
+
+  useEffect(() => {
+    if (island) {
+      island.initPlayer();
+    }
+  }, [island]);
 
   useEffect(() => {
     if (!user) return;

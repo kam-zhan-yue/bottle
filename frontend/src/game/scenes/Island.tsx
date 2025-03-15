@@ -47,11 +47,15 @@ export class Island extends Scene {
         new Phaser.Math.Vector2(50, 50),
       ),
     );
-    this.player = new Player(this.physics, 0, 0, "player", this.inputHandler);
   }
 
   setupAnimations() {
     createCharacterAnims(this.anims);
+  }
+
+  initPlayer() {
+    if (!this.player)
+      this.player = new Player(this.physics, 0, 0, "player", this.inputHandler);
   }
 
   create() {
@@ -66,6 +70,9 @@ export class Island extends Scene {
     EventBus.emit("update", this.elapsedTime);
     // To fix the screen repositioning issue
     this.cameras.main.centerOn(0, 0);
+
+    if (!this.player) return;
+
     switch (this.state) {
       case "game":
         this.player.update();
