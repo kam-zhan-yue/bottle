@@ -56,6 +56,16 @@ export class Island extends Scene {
     this.cameras.main.zoom = 3.0;
   }
 
+  switchState(state: string) {
+    if (state === "ui") {
+      this.state = "ui"
+    }
+    else if (state === "game") {
+      this.state = "game"
+    }
+
+  }
+
   update(_time: number, delta: number) {
     this.elapsedTime += delta;
     EventBus.emit("update", this.elapsedTime);

@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { GameContext, GameContextType } from "../game/GameContext";
 import { EventBus } from "../EventBus";
 import Overlay from "../components/Overlay";
@@ -49,11 +49,13 @@ function Game() {
     EventBus.on("mailbox", () => {
       console.log("React show mailbox");
       navigate({ to: "/game/read" });
+      island?.switchState("ui");
     });
 
     EventBus.on("note", () => {
       console.log("React send note");
       navigate({ to: "/game/send" });
+      island?.switchState("ui");
     });
 
     return () => {

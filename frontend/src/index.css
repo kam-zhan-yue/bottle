@@ -115,6 +115,14 @@ button:focus-visible {
   height: auto;
 }
 
+.bottle {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  width: 10px;
+  height: auto;
+}
+
 @font-face {
   font-family: 'Tiny5';
   src: url('/src/assets/fonts/Tiny5.ttf') format('truetype');

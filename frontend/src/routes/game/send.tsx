@@ -4,6 +4,8 @@ import Overlay from "../../components/Overlay";
 import scroll from "../../assets/scroll.png";
 import sendButtonDefault from "../../assets/send_button_default.png";
 import sendButtonHover from "../../assets/send_button_hover.png";
+import { GameContext, GameContextType } from "../../game/GameContext";
+import { useContext } from "react";
 
 export const Route = createFileRoute("/game/send")({
   component: Send,
@@ -11,6 +13,12 @@ export const Route = createFileRoute("/game/send")({
 
 function Send() {
   const navigate = useNavigate();
+    const { island } = useContext(GameContext) as GameContextType;
+
+  const onClick = () => {
+    navigate({ to: "/game" })
+    island?.switchState("game")
+  }
   return (
     <Overlay>
       <div className="w-full h-full flex items-center justify-center">
@@ -51,7 +59,7 @@ function Send() {
               }}
               onMouseEnter={(e) => (e.currentTarget.style.backgroundImage = `url(${sendButtonHover})`)}
               onMouseLeave={(e) => (e.currentTarget.style.backgroundImage = `url(${sendButtonDefault})`)}
-              onClick={() => navigate({ to: "/game" })}
+              onClick={onClick}
             />
           </div>
         </div>

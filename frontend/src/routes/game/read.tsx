@@ -3,6 +3,9 @@ import Overlay from "../../components/Overlay";
 import letterbox from "../../assets/letterbox.png";
 import closeButton from "../../assets/close_button.png";
 import mailboxIcon from "../../assets/mailbox.png";
+import bottleImage from "../../assets/green_bottle.png";
+import { useContext } from "react";
+import { GameContext, GameContextType } from "../../game/GameContext";
 
 export const Route = createFileRoute("/game/read")({
   component: Read,
@@ -10,6 +13,13 @@ export const Route = createFileRoute("/game/read")({
 
 function Read() {
   const navigate = useNavigate();
+  const { island } = useContext(GameContext) as GameContextType;
+
+  const onClick = () => {
+    navigate({ to: "/game" })
+    island?.switchState("game")
+  }
+
   return (
     <Overlay>
       <div className="w-full h-full flex items-center justify-center">
@@ -21,7 +31,7 @@ function Read() {
             />
         </div>
 
-        <div className="absolute w-1/2 h-auto max-w-xl p-10 flex flex-col items-center">
+        <div className="absolute w-1/2 h-auto max-w-xl p-15 flex flex-col items-center">
           
           <div className="flex justify-between items-center w-full px-4 mb-6">
             <div className="flex items-center gap-2">
@@ -37,7 +47,7 @@ function Read() {
                 className="text-xl font-bold"
                 style={{
                   fontFamily: "PixelifySans",
-                  color: "#875A3A",
+                  color: "black",
                 }}
               >
                 MAILBOX
@@ -58,40 +68,41 @@ function Read() {
                 boxShadow: "none",
                 imageRendering: "pixelated", // its not pixelating
               }}
-              onClick={() => navigate({ to: "/game" })}
+              onClick={onClick}
             />
           </div>
         
-        {/* <div className="absolute w-1/2 h-auto max-w-xl p-15">
-          <p className="text-xl text-center leading-tight mb-4" style={{ fontFamily: 'PixelifySans', color: '#875A3A' }}>
-            Send a Message:
-          </p>
-          <textarea
-            className="bg-transparent text-black placeholder-black text-lg w-4/4 p-2 border-none outline-none resize-none h-50 overflow-auto"
-            placeholder="Type here..."
-            style={{
-              fontFamily: "PixelifySans",
-              whiteSpace: "pre-wrap",
-            }} */}
-          {/* /> */}
-          {/* <div className="w-full flex justify-center items-center mt-6">
-            <button
-              className="py-4 px-8 w-40 h-14 bg-no-repeat bg-contain border-none outline-none focus:outline-none active:outline-none"
-              style={{
-                backgroundImage: `url(${sendButtonDefault})`,
-                backgroundSize: "contain",
-                backgroundColor: "transparent",
-                fontFamily: "PixelifySans",
-                textAlign: "center",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundImage = `url(${sendButtonHover})`)}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundImage = `url(${sendButtonDefault})`)}
-              onClick={() => navigate({ to: "/game" })}
-            />
-          </div> */}
+          <div className="w-full px-4 mb-4">
+            <p
+              className="text-lg font-bold"
+              style={{ fontFamily: "PixelifySans", color: "#875A3A" }}
+            >
+              Incoming
+            </p>
+
+            
+            <div className="flex gap-4 mt-2">
+              {/* placeholder for a bottel */}
+              <div className="flex flex-col items-center bg-[#E8C090] p-4 rounded-md shadow-md">
+                <span
+                  className="text-xs font-bold"
+                  style={{ fontFamily: "PixelifySans", color: "red" }}
+                >
+                  NEW
+                </span>
+                <img src={bottleImage} alt="Bottle" className="bottle" />
+                <p
+                  className="text-sm"
+                  style={{ fontFamily: "PixelifySans", color: "#4A3628" }}
+                >
+                  2min 04sec
+                </p>
+              </div>
+
+              
+            </div>
+          </div>
+
         </div>
       </div>
     </Overlay>
