@@ -3,6 +3,7 @@ import json
 
 from channels.generic.websocket import AsyncWebsocketConsumer
 from utility import MessageAction
+from accounts.models import Bottle, Message
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):        # Join room group
@@ -25,11 +26,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
+
         user_id = text_data_json.get('user_id','')
         message = text_data_json.get('message','')
         action = text_data_json.get('action','')
+        bottle_id = text_data_json.get('bottle_id','')
+        already_received_id = text_data_json.get('already_received_id','').split(',')
 
         if action == MessageAction.CREATE:
+            #bottle = Bottle.objects.create(creator=self.user)
+            #Message.objects.create(text=message, sender=self.user, bottle=bottle)
             pass
         elif action == MessageAction.REPLY:
             pass

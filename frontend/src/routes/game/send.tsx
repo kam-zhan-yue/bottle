@@ -11,6 +11,7 @@ import {
 } from "../../contexts/WebSocketContext";
 import { useContext, useEffect, useState } from "react";
 import { MessageAction } from "../../utils/Interaction";
+import { GameContext, GameContextType } from "../../game/GameContext";
 
 export const Route = createFileRoute("/game/send")({
   component: Send,
@@ -30,17 +31,19 @@ function Send() {
     WebSocketContext,
   ) as WebSocketContextType;
 
+  const { user } = useContext(GameContext) as GameContextType;
+
   useEffect(() => {
     console.log("Last JSON Message is ", lastJsonMessage);
   }, [lastJsonMessage]);
 
   const onSubmit = (message: string) => {
     console.log("Sending ", message);
-    // sendJsonMessage({
-    //   action: MessageAction.SEND,
-    //   message,
-    //   already_received_id: lastJsonMessage?.id || null,
-    // });
+    sendJsonMessage({
+      action: MessageAction.CREATE,
+      user_id: user,
+      message,
+    });
     navigate({ to: "/game" });
   };
 
