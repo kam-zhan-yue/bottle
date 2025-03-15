@@ -6,6 +6,7 @@ import createCharacterAnims from "../classes/AnimationHandler";
 import GameImage from "../classes/GameImage";
 import InteractionHandler from "../classes/InteractionHandler";
 import ObstacleHandler from "../classes/ObstacleHandler";
+import BottleHandler from "../classes/BottleHandler";
 
 export class Island extends Scene {
   public title: string;
@@ -15,6 +16,7 @@ export class Island extends Scene {
   private inputHandler!: InputHandler;
   private interactionHandler!: InteractionHandler;
   private obstacleHandler!: ObstacleHandler;
+  private bottleHandler!: BottleHandler;
 
   constructor() {
     super({ key: "Island" });
@@ -27,9 +29,10 @@ export class Island extends Scene {
     this.inputHandler = new InputHandler(this);
     this.interactionHandler = new InteractionHandler(this);
     this.obstacleHandler = new ObstacleHandler(this);
+    this.bottleHandler = new BottleHandler(this);
 
-    const shader = this.add.shader("water", 0, 0, 1280, 720);
-    shader.setDepth(-500);
+    // const shader = this.add.shader("water", 0, 0, 1280, 720);
+    // shader.setDepth(-500);
     new GameImage(this, new Phaser.Math.Vector2(0, 0), "island", -100);
     new GameImage(this, new Phaser.Math.Vector2(-10, -50), "tree");
   }
@@ -42,13 +45,14 @@ export class Island extends Scene {
     if (!this.player) {
       this.player = new Player(this.physics, 0, 0, "player", this.inputHandler);
       this.obstacleHandler.init(this.player);
+      this.cameras.main.startFollow(this.player.body, false, 0.4, 0.4);
+      this.bottleHandler.spawnBottle();
     }
   }
 
   create() {
     this.setupGame();
     this.setupAnimations();
-    this.cameras.main.centerOn(0, 0);
     this.cameras.main.zoom = 3.0;
   }
 
@@ -56,7 +60,7 @@ export class Island extends Scene {
     this.elapsedTime += delta;
     EventBus.emit("update", this.elapsedTime);
     // To fix the screen repositioning issue
-    this.cameras.main.centerOn(0, 0);
+    this.bottleHandler.update(delta);
 
     if (!this.player) return;
     switch (this.state) {

@@ -15,8 +15,8 @@ const Game = () => {
     const islandScene: Island = new Island();
     const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.AUTO,
-      width: 1000,
-      height: 1000,
+      width: 300,
+      height: 300,
       parent: "game-container",
       backgroundColor: "#65a4f8",
       scale: {
