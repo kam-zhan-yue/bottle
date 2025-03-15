@@ -4,7 +4,7 @@ import mailboxIcon from "../assets/mailbox.png";
 import { useContext, useState } from "react";
 import { GameContext, GameContextType } from "../game/GameContext";
 import Overlay from "./Overlay";
-import { useRead } from "../api/hooks/read";
+import { useRead } from "../api/hooks/use-read";
 import BottlePopup from "./BottlePopup";
 import { Bottle } from "../api/types/bottle";
 import BottlePage from "./BottlePage";
