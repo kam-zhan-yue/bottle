@@ -43,7 +43,7 @@ function Send() {
   const onSubmit = (message: string) => {
     console.log("Sending ", message);
     sendJsonMessage({
-      action: MessageAction.CREATE,
+      action: MessageAction.CREATE.toString(),
       user_id: user,
       message,
     });
@@ -70,6 +70,7 @@ function Send() {
             Send a Message:
           </p>
           <textarea
+            required
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             className="bg-transparent text-black placeholder-black text-lg w-4/4 p-2 border-none outline-none resize-none h-50 overflow-auto"
