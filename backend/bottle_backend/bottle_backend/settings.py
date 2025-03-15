@@ -25,8 +25,6 @@ DATABASE_ENGINE=os.getenv("DATABASE_ENGINE")
 REDIS_HOST = os.environ.get('REDIS_HOST', 'redis')  # Use 'redis' as default (service name in docker-compose)
 REDIS_PORT = os.environ.get('REDIS_PORT', 6379)
 
-print("SDLKFJSDLKFJKLSD")
-print(NAME,USER,PASSWORD,HOST,PORT,DATABASE_ENGINE)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

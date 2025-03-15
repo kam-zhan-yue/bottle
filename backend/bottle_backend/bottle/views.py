@@ -1,12 +1,12 @@
-from django.shortcuts import render
 from django.http import HttpResponse
+from django.shortcuts import render
+
 
 # Create your views here.
 def index(request):
     return HttpResponse("Hello World")
 from django.http import HttpResponse
 
-from django.http import HttpResponse
 
 def websocket_test(request):
     # Add the server's host and port to help with debugging
@@ -66,7 +66,7 @@ def websocket_test(request):
                 
                 // Create new WebSocket connection
                 const wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
-                const wsUrl = wsProtocol + window.location.host + '/ws/chat/' + roomName + '/';
+                const wsUrl = wsProtocol + window.location.host + '/ws/';
                 
                 addMessage('Debug', 'Connecting to: ' + wsUrl);
                 
