@@ -37,13 +37,13 @@ function Index() {
           
           
           <Link to="/login">
-            <button className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg text-lg font-bold hover:bg-blue-700 transition" style={{ fontFamily: 'Jura' }}>
+            <button className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg text-lg font-bold hover:bg-blue-700 transition" style={{ fontFamily: 'PixelifySans' }}>
               Login
             </button>
           </Link>
 
         
-          <Link to="/signup" className="mt-2 text-sm text-blue-600 underline hover:text-blue-700" style={{ fontFamily: 'Jura' }}>
+          <Link to="/signup" className="mt-2 text-sm text-blue-600 underline hover:text-blue-700" style={{ fontFamily: 'PixelifySans' }}>
             Create an account
           </Link>
         </div>

@@ -38,6 +38,10 @@ h3 {
   text-shadow: 2px 2px 4px #000000;
 }
 
+label {
+  text-shadow: 2px 2px 4px #000000;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -95,6 +99,14 @@ button:focus-visible {
   height: auto;
 }
 
+.scroll {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  width: 100%;
+  height: auto;
+}
+
 @font-face {
   font-family: 'Tiny5';
   src: url('/src/assets/fonts/Tiny5.ttf') format('truetype');
@@ -119,5 +131,5 @@ button:focus-visible {
 ::placeholder {
   color: gray; 
   opacity: 1;
-  font-family: 'Jura';
+  font-family: 'PixelifySans';
 }

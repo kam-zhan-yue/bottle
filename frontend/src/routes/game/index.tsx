@@ -9,8 +9,8 @@ function Home() {
   return (
     <Overlay>
       <div className="w-full h-full flex flex-col items-center justify-center">
-        <Link to="/game/fishing">Fishing</Link>
-        <Link to="/game/send">Send a Note</Link>
+        {/* <Link to="/game/fishing">Fishing</Link>
+        <Link to="/game/send">Send a Note</Link> */}
       </div>
     </Overlay>
   );

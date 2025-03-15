@@ -16,3 +16,5 @@ function Read() {
     </Overlay>
   );
 }
+
+export default Read;

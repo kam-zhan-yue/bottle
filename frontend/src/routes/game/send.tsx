@@ -9,21 +9,36 @@ export const Route = createFileRoute("/game/send")({
 function Send() {
   return (
     <Overlay>
-      <div className="w-full h-full flex flex-col items-center justify-center">
-        This is a send
-
-        <div className="w-1/2 h-full flex items-center justify-center">
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="absolute w-1/2 h-auto max-w-xl">
           <img
-            src={scroll}
-            alt="Send illustration"
-            className="max-w-full max-h-full object-contain"
-          />
+              src={scroll}
+              alt="Scroll"
+              className="scroll"
+            />
         </div>
-
-
-        <input className="bg-blue-900" type="text" />
-        <button onClick={() => {}}>Send!</button>
+        <div className="absolute w-1/2 h-auto max-w-xl p-15">
+          <p className="text-xl text-center leading-tight mb-4" style={{ fontFamily: 'PixelifySans', color: '#875A3A' }}>
+            Send a Message:
+          </p>
+          <textarea
+            className="bg-transparent text-black placeholder-black text-lg w-4/4 p-2 border-none outline-none resize-none h-50 overflow-auto"
+            placeholder="Type here..."
+            style={{
+              fontFamily: "PixelifySans",
+              whiteSpace: "pre-wrap",
+            }}
+          />
+          <button
+            className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
+            onClick={() => console.log("Message sent!")}
+          >
+            Send!
+          </button>
+        </div>
       </div>
     </Overlay>
   );
 }
+
+export default Send;
