@@ -7,7 +7,7 @@ export default class Interaction {
   private scene: Phaser.Scene;
   private position: Phaser.Math.Vector2;
   private size: Phaser.Math.Vector2;
-  private graphics: Phaser.GameObjects.Graphics;
+  private graphics!: Phaser.GameObjects.Graphics;
   private tooltip: GameImage;
   private active: boolean;
 

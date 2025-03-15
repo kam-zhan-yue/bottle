@@ -12,7 +12,7 @@ export default class Bottle {
   ) {
     this.scene = scene;
     this.target = target;
-    this.body = scene.physics.add.sprite(spawn.x, spawn.y, "bottle");
+    this.body = this.scene.physics.add.sprite(spawn.x, spawn.y, "bottle");
   }
 
   update(delta: number) {
@@ -21,6 +21,7 @@ export default class Bottle {
     const difference = targetPos.subtract(currentPos);
     const deltaX = difference.normalize().x * constants.bottleSpeed * delta;
     const deltaY = difference.normalize().y * constants.bottleSpeed * delta;
+    // const bobY = Math.cos(delta * constants.bobSpeed) * 2;
     this.body.x += deltaX;
     this.body.y += deltaY;
   }
