@@ -7,7 +7,8 @@ from django.db import models
 
 class Bottle(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    creator=models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    creator=models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="creator")
+    receiver=models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="receiver")
 
 class Message(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
