@@ -39,4 +39,8 @@ export default class InputHandler {
   public isLeft(): boolean {
     return this.cursors?.left?.isDown || this.wasd?.left?.isDown;
   }
+
+  public isInteractDown(): boolean {
+    return Phaser.Input.Keyboard.JustDown(this.cursors?.space);
+  }
 }

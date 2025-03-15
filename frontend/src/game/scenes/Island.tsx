@@ -24,7 +24,7 @@ export class Island extends Scene {
 
   setupGame() {
     this.inputHandler = new InputHandler(this);
-    this.interactionHandler = new InteractionHandler(this);
+    this.interactionHandler = new InteractionHandler();
 
     new GameImage(this, new Phaser.Math.Vector2(0, 0), "island", -100);
     new GameImage(this, new Phaser.Math.Vector2(-10, -50), "tree");
@@ -32,6 +32,7 @@ export class Island extends Scene {
     this.interactionHandler.add(
       new Interaction(
         this,
+        "mailbox",
         new Phaser.Math.Vector2(-80, 10),
         new Phaser.Math.Vector2(50, 50),
         "mailbox",
@@ -41,6 +42,7 @@ export class Island extends Scene {
     this.interactionHandler.add(
       new Interaction(
         this,
+        "note",
         new Phaser.Math.Vector2(80, 10),
         new Phaser.Math.Vector2(50, 50),
       ),
@@ -71,6 +73,17 @@ export class Island extends Scene {
         break;
       case "ui":
         break;
+    }
+
+    if (this.inputHandler.isInteractDown()) {
+      const interaction = this.interactionHandler.getCurrentInteraction(
+        this.player.getPos(),
+      );
+      console.log(interaction);
+      if (interaction) {
+        EventBus.emit(interaction.id);
+        console.log("Emitting ", interaction.id);
+      }
     }
   }
 }

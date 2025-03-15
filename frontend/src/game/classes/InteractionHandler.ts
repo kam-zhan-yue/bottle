@@ -1,14 +1,10 @@
 import Interaction from "./Interaction";
 
 export default class InteractionHandler {
-  private scene: Phaser.Scene;
   private interactions: Interaction[];
-  private currentInteraction: Interaction | null;
 
-  constructor(scene: Phaser.Scene) {
-    this.scene = scene;
+  constructor() {
     this.interactions = [];
-    this.currentInteraction = null;
   }
 
   add(interaction: Interaction) {
@@ -17,9 +13,16 @@ export default class InteractionHandler {
 
   update(playerPos: Phaser.Math.Vector2) {
     this.interactions.forEach((interaction) => {
-      if (interaction.containsPoint(playerPos.x, playerPos.y)) {
-        this.currentInteraction = interaction;
-      }
+      interaction.update(playerPos);
     });
+  }
+
+  getCurrentInteraction(playerPos: Phaser.Math.Vector2): Interaction | null {
+    for (const interaction of this.interactions) {
+      if (interaction.containsPoint(playerPos.x, playerPos.y)) {
+        return interaction;
+      }
+    }
+    return null;
   }
 }

@@ -1,7 +1,8 @@
+import { InteractionType } from "../../utils/InteractionType";
 import GameImage from "./GameImage";
 
 export default class Interaction {
-  private image!: GameImage;
+  public id: InteractionType;
   private scene: Phaser.Scene;
   private position: Phaser.Math.Vector2;
   private size: Phaser.Math.Vector2;
@@ -11,17 +12,19 @@ export default class Interaction {
 
   constructor(
     scene: Phaser.Scene,
+    id: InteractionType,
     point: Phaser.Math.Vector2,
     size: Phaser.Math.Vector2,
     imageKey: string | undefined = undefined,
     depth: number | undefined = undefined,
   ) {
     this.scene = scene;
+    this.id = id;
     this.position = point;
     this.size = size;
 
     if (imageKey) {
-      this.image = new GameImage(this.scene, this.position, imageKey, depth);
+      new GameImage(this.scene, this.position, imageKey, depth);
     }
 
     this.graphics = this.scene.add.graphics();
@@ -84,5 +87,9 @@ export default class Interaction {
       this.hideTooltip();
     }
     return contains;
+  }
+
+  update(playerPos: Phaser.Math.Vector2) {
+    this.containsPoint(playerPos.x, playerPos.y);
   }
 }
