@@ -107,6 +107,14 @@ button:focus-visible {
   height: auto;
 }
 
+.letterbox {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  width: 100%;
+  height: auto;
+}
+
 @font-face {
   font-family: 'Tiny5';
   src: url('/src/assets/fonts/Tiny5.ttf') format('truetype');

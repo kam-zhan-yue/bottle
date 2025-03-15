@@ -1,12 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import Overlay from "../../components/Overlay";
 import scroll from "../../assets/scroll.png";
+import sendButtonDefault from "../../assets/send_button_default.png";
+import sendButtonHover from "../../assets/send_button_hover.png";
 
 export const Route = createFileRoute("/game/send")({
   component: Send,
 });
 
 function Send() {
+  const navigate = useNavigate();
   return (
     <Overlay>
       <div className="w-full h-full flex items-center justify-center">
@@ -29,12 +33,27 @@ function Send() {
               whiteSpace: "pre-wrap",
             }}
           />
-          <button
-            className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
-            onClick={() => console.log("Message sent!")}
-          >
-            Send!
-          </button>
+          <div className="w-full flex justify-center items-center mt-6">
+            <button
+              className="py-4 px-8 w-40 h-14 bg-no-repeat bg-contain border-none outline-none focus:outline-none active:outline-none"
+              style={{
+                backgroundImage: `url(${sendButtonDefault})`,
+                backgroundSize: "contain",
+                backgroundColor: "transparent",
+                fontFamily: "PixelifySans",
+                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                border: "none", 
+                outline: "none", 
+                boxShadow: "none",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundImage = `url(${sendButtonHover})`)}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundImage = `url(${sendButtonDefault})`)}
+              onClick={() => navigate({ to: "/game" })}
+            />
+          </div>
         </div>
       </div>
     </Overlay>
