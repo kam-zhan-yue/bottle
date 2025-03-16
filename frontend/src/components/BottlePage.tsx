@@ -29,8 +29,7 @@ const BottlePage = ({
 
     mutateReply(
       {
-        id: user,
-        bottleId: bottle.id,
+        bottle_id: bottle.id,
         message,
       },
       {
@@ -39,9 +38,9 @@ const BottlePage = ({
 
           sendJsonMessage({
             action: MessageAction.REPLY.toString(),
+            message_id: data.data.message_id,
             bottle_id: bottle.id,
             user_id: user,
-            message,
           });
           onComplete();
           island?.replyBottle();
@@ -55,8 +54,7 @@ const BottlePage = ({
     console.log("Forwarding ", message);
     mutateForward(
       {
-        id: user,
-        bottleId: bottle.id,
+        bottle_id: bottle.id,
         message,
       },
       {
@@ -67,7 +65,6 @@ const BottlePage = ({
             action: MessageAction.FORWARD.toString(),
             bottle_id: bottle.id,
             user_id: user,
-            message,
           });
           onComplete();
           island?.replyBottle();

@@ -6,7 +6,7 @@ import { Reply } from "../types/reply";
 export const useReply = () => {
   return useMutation({
     mutationFn: (data: Reply) => {
-      return axios.post(`${BASE_URL}/api/reply/`, data);
+      return axios.post(`${BASE_URL}/api/reply-bottle/`, data);
     },
   });
 };

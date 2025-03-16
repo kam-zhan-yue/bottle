@@ -1,5 +1,4 @@
 export interface Reply {
-  id: string;
-  bottleId: string;
+  bottle_id: string;
   message: string;
 }

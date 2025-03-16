@@ -6,7 +6,7 @@ import { Forward } from "../types/forward";
 export const useForward = () => {
   return useMutation({
     mutationFn: (data: Forward) => {
-      return axios.post(`${BASE_URL}/api/forward/`, data);
+      return axios.post(`${BASE_URL}/api/forward-bottle/`, data);
     },
   });
 };
