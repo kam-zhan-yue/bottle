@@ -48,12 +48,6 @@ const TutorialComponent = ({ onTutorialCompleted }: TutorialProps) => {
                 outline: "none",
                 boxShadow: "none",
               }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.backgroundImage = `url(${forwardButtonHover})`)
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.backgroundImage = `url(${forwardButtonDefault})`)
-              }
             ></button>
           </div>
         </div>
