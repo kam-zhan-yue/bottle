@@ -18,7 +18,7 @@ const BottlePopup = ({ bottle, onClick }: BottlePopupProps) => {
       >
         NEW
       </span> */}
-      <img src={bottleImage} alt="Bottle" className="bottle" />
+      <img src={bottleImage} alt="Bottle" className="bottle p-1.5" />
       {/* <p
         className="text-sm"
         style={{ fontFamily: "PixelifySans", color: "#4A3628" }}
