@@ -34,7 +34,9 @@ const BottleReply = ({ onReply, onForward, onBack }: BottleReplyProps) => {
         }}
       />
       <div className="w-full flex justify-center items-center mt-6 gap-4">
-        <button onClick={() => onReply(message)}
+        <button
+          onClick={() => onReply(message)}
+          disabled={message === ""}
           className="w-30 h-12 bg-no-repeat bg-contain border-none outline-none focus:outline-none active:outline-none flex items-center justify-center"
           style={{
             backgroundImage: `url(${replyButtonDefault})`,
@@ -55,9 +57,9 @@ const BottleReply = ({ onReply, onForward, onBack }: BottleReplyProps) => {
           onMouseLeave={(e) =>
             (e.currentTarget.style.backgroundImage = `url(${replyButtonDefault})`)
           }
-        >
-        </button>
-        <button onClick={() => onForward(message)}
+        ></button>
+        <button
+          onClick={() => onForward(message)}
           className="w-30 h-12 bg-no-repeat bg-contain border-none outline-none focus:outline-none active:outline-none flex items-center justify-center"
           style={{
             backgroundImage: `url(${forwardButtonDefault})`,
@@ -78,9 +80,9 @@ const BottleReply = ({ onReply, onForward, onBack }: BottleReplyProps) => {
           onMouseLeave={(e) =>
             (e.currentTarget.style.backgroundImage = `url(${forwardButtonDefault})`)
           }
-        >
-        </button>
-        <button onClick={() => onBack()}
+        ></button>
+        <button
+          onClick={() => onBack()}
           className="w-30 h-12 bg-no-repeat bg-contain border-none outline-none focus:outline-none active:outline-none flex items-center justify-center"
           style={{
             backgroundImage: `url(${backButtonDefault})`,
@@ -101,8 +103,7 @@ const BottleReply = ({ onReply, onForward, onBack }: BottleReplyProps) => {
           onMouseLeave={(e) =>
             (e.currentTarget.style.backgroundImage = `url(${backButtonDefault})`)
           }
-        >
-        </button>
+        ></button>
       </div>
     </div>
   );

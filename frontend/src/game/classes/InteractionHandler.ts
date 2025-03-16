@@ -22,7 +22,7 @@ export default class InteractionHandler {
       new Interaction(
         scene,
         "note",
-        new Phaser.Math.Vector2(80, 10),
+        new Phaser.Math.Vector2(70, 10),
         new Phaser.Math.Vector2(50, 50),
         "table",
         undefined,

@@ -83,7 +83,7 @@ export default class ObstacleHandler {
     this.obstacles.push(
       new Obstacle(
         this.scene,
-        new Phaser.Math.Vector2(80, 10),
+        new Phaser.Math.Vector2(70, 10),
         new Phaser.Math.Vector2(40, 20),
       ),
     );
