@@ -1,14 +1,15 @@
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useContext, useEffect, useState } from "react";
-import { GameContext, GameContextType } from "../game/GameContext";
+import useWebSocket from "react-use-websocket";
 import { EventBus } from "../EventBus";
 import Overlay from "../components/Overlay";
-import { InteractionType } from "../utils/InteractionType";
 import Read from "../components/Read";
 import Send from "../components/Send";
-import useWebSocket from "react-use-websocket";
+import { GameContext, GameContextType } from "../game/GameContext";
+import { InteractionType } from "../utils/InteractionType";
 
-const WS_URL = "localhost/ws/";
+const BASE_URL = process.env.BASE_URL;
+const WS_URL = `${BASE_URL}/ws/`;
 
 export const Route = createFileRoute("/game")({
   component: Game,
@@ -59,7 +60,7 @@ function Game() {
   useEffect(() => {
     const registerEvent = (
       event: InteractionType,
-      fn: (id?: string) => void,
+      fn: (id?: string) => void
     ) => {
       EventBus.on(event, fn);
     };
