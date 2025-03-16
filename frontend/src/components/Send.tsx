@@ -6,6 +6,7 @@ import { GameContext, GameContextType } from "../game/GameContext";
 import { MessageAction } from "../utils/Interaction";
 import Overlay from "./Overlay";
 import { SendJsonMessage } from "react-use-websocket/dist/lib/types";
+import closeButton from "../assets/close_button.png";
 
 interface SendProps {
   sendJsonMessage: SendJsonMessage;
@@ -16,6 +17,11 @@ const Send = ({ sendJsonMessage, onCancel }: SendProps) => {
   const { island, user } = useContext(GameContext) as GameContextType;
 
   const [message, setMessage] = useState("");
+
+  const onClick = () => {
+    onCancel?.();
+    island?.switchState("game");
+  };
 
   const onSubmit = (message: string) => {
     console.log("Sending ", message);
@@ -38,8 +44,23 @@ const Send = ({ sendJsonMessage, onCancel }: SendProps) => {
         }}
         className="w-full h-full flex items-center justify-center"
       >
+
+
         <div className="absolute w-1/2 h-auto max-w-xl">
           <img src={scroll} alt="Scroll" className="scroll" />
+
+          <button
+            className="absolute top-15 right-15 w-10 h-10 z-50 bg-no-repeat bg-contain"
+            style={{
+              backgroundImage: `url(${closeButton})`,
+              backgroundSize: "contain",
+              backgroundColor: "transparent",
+              imageRendering: "pixelated",
+              border: "none",
+              outline: "none",
+            }}
+            onClick={onClick}
+          />
         </div>
         <div className="absolute w-1/2 h-auto max-w-xl p-15">
           <p
@@ -48,6 +69,7 @@ const Send = ({ sendJsonMessage, onCancel }: SendProps) => {
           >
             Send a Message:
           </p>
+
           <textarea
             required
             value={message}
