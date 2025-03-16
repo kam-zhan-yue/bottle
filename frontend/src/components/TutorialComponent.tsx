@@ -1,11 +1,14 @@
-import React from 'react'
 import got_it_button from "../assets/got_it_button.png";
 
-const TutorialComponent = () => {
+interface TutorialProps {
+  onTutorialCompleted: () => void;
+}
 
-    const handleClick = () => {
-        console.log("Button clicked!");
-    }
+const TutorialComponent = ({ onTutorialCompleted }: TutorialProps) => {
+
+  const handleClick = () => {
+    onTutorialCompleted();
+  }
 
   return (
     <div className='bg-transparent rounded flex flex-col items-center justify-center min-h-screen' style={{ fontFamily: "PixelifySans", color: "#FFFFFF" }}>

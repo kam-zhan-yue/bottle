@@ -16,8 +16,8 @@ export const Route = createFileRoute("/login")({
   component: Login,
 });
 
-const gameLinkOption = linkOptions({
-  to: "/game",
+const aboutLinkOption = linkOptions({
+  to: "/about",
 });
 
 function Login() {
@@ -37,7 +37,7 @@ function Login() {
       onSuccess: (data) => {
         console.log("Login Success, data is ", data.data.user.id);
         setUser(data.data.user.id);
-        navigate(gameLinkOption);
+        navigate(aboutLinkOption);
       },
       onError: (error) => {
         console.log(error);
