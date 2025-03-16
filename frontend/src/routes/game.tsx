@@ -96,7 +96,6 @@ function Game() {
 
   return (
     <Overlay>
-      <h1>Welcome {user}</h1>
       {state === "read" && (
         <Read sendJsonMessage={sendJsonMessage} onCancel={backToGame} />
       )}

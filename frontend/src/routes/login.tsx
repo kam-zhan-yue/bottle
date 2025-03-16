@@ -26,6 +26,7 @@ function Login() {
     password: "",
   });
   const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
 
   const { mutate } = useLogin();
 
@@ -36,6 +37,11 @@ function Login() {
         console.log("Login Success, data is ", data.data.user.id);
         setUser(data.data.user.id);
         navigate(gameLinkOption);
+      },
+      onError: (error) => {
+        console.log(error);
+        // @ts-expect-error This actually exists
+        setError(error.response.data.error);
       },
     });
   };
@@ -58,6 +64,11 @@ function Login() {
           Log In
         </p>
 
+        {error && (
+          <p className="text-red-500" style={{ fontFamily: "PixelifySans" }}>
+            {error}
+          </p>
+        )}
         <form onSubmit={handleSubmit} className="flex flex-col w-64">
           <label
             htmlFor="username"
