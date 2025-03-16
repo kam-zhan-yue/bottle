@@ -15,7 +15,7 @@ from .serializers import InboxSerializer, MessageSerializer
 # Create your views here.
 
 def get_random_user(bottle):
-    users = OnlineUser.objects.all() .exclude(id=bottle.creator.id).values_list('user__id', flat=True) 
+    users = OnlineUser.objects.all() .exclude(id=bottle.creator.id).values_list('user__id', flat=True)
     if users.exists():
         return random.choice(users)
     else:
@@ -29,7 +29,7 @@ def index(request):
 def received_bottles(request, user_id):
     bottled_query = Bottle.objects.filter(receiver=user_id)
     serializer = InboxSerializer(bottled_query, many=True)
-    
+
     output = []
     for bottle in serializer.data:
         bottle_out = {
@@ -50,20 +50,22 @@ def reply_bottle(request):
     user_id = data["user_id"]
     user =User.objects.get(id=user_id)
     return_body = dict()
-    
+
     bottle = Bottle.objects.get(id=bottle_id)
     Message.objects.create(text=message, sender=user, bottle=bottle)
-    bottle.receiver = user
+    print(f"Creator is {bottle.creator} Receiver is {bottle.receiver}")
+    bottle.receiver = bottle.last_sent
+    bottle.last_sent = user
     bottle.save()
 
     return_body["bottle_id"] = bottle.id
-    return_body["receiver_id"] = bottle.creator.id
+    return_body["receiver_id"] = bottle.receiver.id
 
     try:
         Message.objects.create(text=message, sender=user, bottle=bottle)
     except:
         return Response({"message": "error creating message object"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+
     return Response({"message": return_body}, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
@@ -75,7 +77,7 @@ def forward_bottle(request):
         message = data["message"]
         user = request.user
         return_body = dict()
-        
+
         bottle = Bottle.objects.get(id=bottle_id)
 
         if message:
@@ -94,14 +96,14 @@ def get_bottle_creator(request):
         bottle_id = request.query_params.get("bottle_id")
         if not bottle_id:
             return Response(
-                {"error": "bottle_id parameter is required"}, 
+                {"error": "bottle_id parameter is required"},
                 status=status.HTTP_400_BAD_REQUEST
             )
-            
+
         bottle = Bottle.objects.get(id=bottle_id)
         return Response({"id": bottle.creator.id}, status=status.HTTP_200_OK)
     except Bottle.DoesNotExist:
         return Response(
-            {"error": f"Bottle with id {bottle_id} does not exist"}, 
+            {"error": f"Bottle with id {bottle_id} does not exist"},
             status=status.HTTP_404_NOT_FOUND
         )

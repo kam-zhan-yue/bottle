@@ -29,6 +29,7 @@ const BottlePage = ({
 
     mutateReply(
       {
+        user_id: user,
         bottle_id: bottle.id,
         message,
       },
@@ -54,6 +55,7 @@ const BottlePage = ({
     console.log("Forwarding ", message);
     mutateForward(
       {
+        user_id: user,
         bottle_id: bottle.id,
         message,
       },
