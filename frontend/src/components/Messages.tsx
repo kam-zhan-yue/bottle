@@ -20,7 +20,7 @@ const Messages = ({ messages }: MessageProps) => {
 
   const toggleDropdown = () => {
     setMessagesOpen(!messagesOpen);
-  }
+  };
 
   return (
     <>
@@ -34,23 +34,39 @@ const Messages = ({ messages }: MessageProps) => {
           </div>
         </>
       )}
-      
+
       {sortedMessages.length > 2 && (
         <>
           <div className="self-start m-0 p-0 bg-transparent flex pt-2">
-            <button onClick={toggleDropdown} type="button" className="message-dropdown">
-              <img src={messagesOpen === true ? "/images/ArrowDown.svg": "/images/ArrowRight.svg"} alt="ArrowImg" />
+            <button
+              onClick={toggleDropdown}
+              type="button"
+              className="message-dropdown"
+            >
+              <img
+                src={
+                  messagesOpen === true
+                    ? "/images/ArrowDown.svg"
+                    : "/images/ArrowRight.svg"
+                }
+                alt="ArrowImg"
+              />
             </button>
-            <p className="px-2">{"View " + otherResponses.length + " responses"}</p>
+            <p className="px-2">
+              {"View " + otherResponses.length + " responses"}
+            </p>
           </div>
           {messagesOpen && (
             <>
               {otherResponses.map((response, index) => (
-                <MessageEntry bg_color={index % 2 === 0 ? "#D5A770": "#FAD79D"} text={response.text} />
+                <MessageEntry
+                  key={index}
+                  bg_color={index % 2 === 0 ? "#D5A770" : "#FAD79D"}
+                  text={response.text}
+                />
               ))}
             </>
           )}
-
         </>
       )}
     </>
