@@ -53,8 +53,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         
         # Get the authenticated user
         self.user = self.scope["user"]
-
-        print(self.scope["user"])
         
         # Check if user is authenticated before creating OnlineUser
         if self.user.is_authenticated:
@@ -68,8 +66,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             "default",
             self.channel_name,
         )
-        print(hasattr(self, 'user') )
-        print(self.user.is_authenticated)
         # Delete OnlineUser if user was authenticated
         if hasattr(self, 'user') and self.user.is_authenticated:
             await delete_online_user(self.user)
@@ -103,6 +99,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 bottle = await sync_to_async(Bottle.objects.get)(id=bottle_id)
                 broadcast_object["bottle_id"] = bottle.id
                 broadcast_object["receiver_id"] = await get_random_user(bottle)
+                broadcast_object
         
         await self.channel_layer.group_send(
             "default",

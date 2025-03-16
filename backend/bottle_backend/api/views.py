@@ -51,6 +51,8 @@ def reply_bottle(request):
     
     bottle = Bottle.objects.get(id=bottle_id)
     Message.objects.create(text=message, sender=user, bottle=bottle)
+    bottle.receiver = user
+    bottle.save()
 
     return_body["bottle_id"] = bottle.id
     return_body["receiver_id"] = bottle.creator.id
@@ -68,10 +70,14 @@ def forward_bottle(request):
         # user_id = request.body["user_id"] # might not be needed
         data = json.loads(request.body)
         bottle_id = data["bottle_id"]
+        message = data["message"]
         user = request.user
         return_body = dict()
         
         bottle = Bottle.objects.get(id=bottle_id)
+
+        if message:
+            Message.objects.create(text=message, sender=user, bottle=bottle)
 
         return_body["bottle_id"] = bottle.id
         return_body["receiver_id"] = get_random_user(bottle)
@@ -79,6 +85,21 @@ def forward_bottle(request):
 
     except:
         return Response({"message": "error in forwarding the bottle"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
-    
-    
+
+@api_view(['GET'])
+def get_bottle_creator(request):
+    try:
+        bottle_id = request.query_params.get("bottle_id")
+        if not bottle_id:
+            return Response(
+                {"error": "bottle_id parameter is required"}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+            
+        bottle = Bottle.objects.get(id=bottle_id)
+        return Response({"id": bottle.creator.id}, status=status.HTTP_200_OK)
+    except Bottle.DoesNotExist:
+        return Response(
+            {"error": f"Bottle with id {bottle_id} does not exist"}, 
+            status=status.HTTP_404_NOT_FOUND
+        )
