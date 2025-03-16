@@ -18,6 +18,7 @@ export class Island extends Scene {
   private interactionHandler!: InteractionHandler;
   private obstacleHandler!: ObstacleHandler;
   private bottleHandler!: BottleHandler;
+  private island!: GameImage;
 
   constructor() {
     super({ key: "Island" });
@@ -55,7 +56,7 @@ export class Island extends Scene {
 
     // const shader = this.add.shader("water", 0, 0, 1280, 720);
     // shader.setDepth(-500);
-    new GameImage(this, new Phaser.Math.Vector2(0, 0), "island", -100);
+    this.island =new GameImage(this, new Phaser.Math.Vector2(0, 0), "island", -100);
     new GameImage(this, new Phaser.Math.Vector2(-10, -50), "tree");
     new GameImage(this, new Phaser.Math.Vector2(50, -30), "flower");
     new GameImage(this, new Phaser.Math.Vector2(25, 45), "flower");
@@ -95,7 +96,7 @@ export class Island extends Scene {
     this.setupGame();
     this.setupAnimations();
     this.cameras.main.zoom = 3.0;
-    this.cameras.main.centerOn(0, 0);
+    this.cameras.main.startFollow(this.island.image, false, 0.4, 0.4);
   }
 
   switchState(state: string) {

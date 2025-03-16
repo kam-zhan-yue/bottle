@@ -1,4 +1,8 @@
-import { createFileRoute, linkOptions, useNavigate } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  linkOptions,
+  useNavigate,
+} from "@tanstack/react-router";
 import TutorialComponent from "../components/TutorialComponent";
 
 export const Route = createFileRoute("/about")({
@@ -15,9 +19,5 @@ function About() {
     navigate(gameLinkOption);
   };
 
-  return (
-    <div className="p-2">
-      <TutorialComponent onTutorialCompleted={tutorialCompleted}/>
-    </div>
-  );
+  return <TutorialComponent onTutorialCompleted={tutorialCompleted} />;
 }
