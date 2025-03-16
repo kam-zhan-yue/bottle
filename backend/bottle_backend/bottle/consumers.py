@@ -102,7 +102,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
             case MessageAction.REPLY.value:
                 # Creates a new message and assigns it to the original bottle creator
-                print(f"REPLYING BOTTLE")
                 bottle = await sync_to_async(Bottle.objects.get)(id=bottle_id)
                 broadcast_object["bottle_id"] = bottle.id
                 broadcast_object["receiver_id"] = await get_bottle_receiver(bottle.id)
@@ -110,7 +109,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             case MessageAction.FORWARD.value:
                 bottle = await sync_to_async(Bottle.objects.get)(id=bottle_id)
                 broadcast_object["bottle_id"] = bottle.id
-                broadcast_object["receiver_id"] = await get_random_user(user_id)
+                broadcast_object["receiver_id"] = await get_bottle_receiver(bottle.id)
 
         await self.channel_layer.group_send(
             "default",

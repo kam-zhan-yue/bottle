@@ -86,7 +86,8 @@ def forward_bottle(request):
         if message:
             Message.objects.create(text=message, sender=user, bottle=bottle)
             random_user_id = get_random_user(user_id)
-            bottle.receiver = random_user_id
+            random_user = User.objects.get(id=random_user_id)
+            bottle.receiver = random_user
             bottle.last_sent = user
             bottle.save()
         else:
@@ -102,6 +103,7 @@ def forward_bottle(request):
         return_body = dict()
         return_body["bottle_id"] = "" if deleted else bottle.id
         return_body["receiver_id"] = "" if deleted else random_user_id
+        print("Bottle is from ", bottle.last_sent, " Bottle is going to ", bottle.receiver)
         return Response({"message": return_body}, status=status.HTTP_200_OK)
 
     except:
