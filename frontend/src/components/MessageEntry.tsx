@@ -5,8 +5,8 @@ interface MessageProps {
 
 const MessageEntry = ({ text, bg_color }: MessageProps) => {
   return (
-    <div className={`h-12${bg_color}`}>
-      <h2>{text}</h2>
+    <div className={`w-full bg-[${bg_color}]`}>
+      <h2 className="m-1 mx-5">{text}</h2>
     </div>
   );
 };
