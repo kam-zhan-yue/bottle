@@ -80,7 +80,7 @@ export class Island extends Scene {
 
   replyBottle() {
     console.log("GAME | Replying Bottle");
-    this.bottleHandler.sendBottle();
+    this.bottleHandler.replyBottle();
   }
 
   initPlayer() {

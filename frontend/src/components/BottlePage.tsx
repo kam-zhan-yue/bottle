@@ -13,12 +13,14 @@ interface BottlePageProps {
   bottle: Bottle;
   sendJsonMessage: SendJsonMessage;
   onComplete: () => void;
+  onBack: () => void;
 }
 
 const BottlePage = ({
   bottle,
   sendJsonMessage,
   onComplete,
+  onBack,
 }: BottlePageProps) => {
   const { island, user } = useContext(GameContext) as GameContextType;
   const { mutate: mutateReply } = useReply();
@@ -86,11 +88,7 @@ const BottlePage = ({
       style={{ fontFamily: "PixelifySans", color: "#875A3A" }}
     >
       <Messages messages={messages} />
-      <BottleReply
-        onReply={onReply}
-        onForward={onForward}
-        onBack={onComplete}
-      />
+      <BottleReply onReply={onReply} onForward={onForward} onBack={onBack} />
     </div>
   );
 };

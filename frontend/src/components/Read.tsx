@@ -29,7 +29,13 @@ const Read = ({ sendJsonMessage, onCancel }: ReadProps) => {
     setSelectedBottle(bottle);
   };
 
-  const handleCloseBottlePage = () => {
+  const handleComplete = () => {
+    setSelectedBottle(null);
+    onCancel?.();
+    island?.switchState("game");
+  };
+
+  const handleBack = () => {
     setSelectedBottle(null);
   };
 
@@ -85,7 +91,8 @@ const Read = ({ sendJsonMessage, onCancel }: ReadProps) => {
               <BottlePage
                 sendJsonMessage={sendJsonMessage}
                 bottle={selectedBottle}
-                onComplete={handleCloseBottlePage}
+                onComplete={handleComplete}
+                onBack={handleBack}
               />
             )}
             {!selectedBottle && <Bottles handleClick={handleClick} />}
