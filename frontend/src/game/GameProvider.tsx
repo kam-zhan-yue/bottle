@@ -16,12 +16,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, []);
 
-  useEffect(() => {
-    if (user) {
-      sessionStorage.setItem("userId", user);
-    }
-  }, [user]);
-
   return (
     <>
       <GameContext.Provider

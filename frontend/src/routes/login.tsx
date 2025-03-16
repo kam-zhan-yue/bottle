@@ -33,8 +33,17 @@ function Login() {
     e.preventDefault();
     mutate(formData, {
       onSuccess: (data) => {
-        console.log("Login Success, data is ", data.data.user.id);
-        setUser(data.data.user.id);
+        console.log("Login Success, data is ", data.data);
+        const access = data.data.access;
+        const refresh = data.data.refresh;
+        const user = data.data.user.id;
+
+        sessionStorage.setItem("access_token", access);
+
+        // 2. Store the refresh token in an HttpOnly cookie (this would usually be done by the backend)
+        document.cookie = `refresh_token=${refresh}; path=/; HttpOnly; Secure`;
+
+        setUser(user);
         navigate(gameLinkOption);
       },
     });
