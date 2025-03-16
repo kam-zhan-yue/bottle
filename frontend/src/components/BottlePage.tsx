@@ -75,37 +75,49 @@ const BottlePage = ({
   };
 
   // For testing purposes
-  const messages: Message[] = [
-    {
-      id: "message1",
-      bottleId: bottle.id,
-      text: "This is the most recent message",
-      sender: "sender2",
-      createdAt: new Date("2025-03-16T12:00:00Z"), // Hardcoded timestamp
-    },
-    {
-      id: "message2",
-      bottleId: bottle.id,
-      text: "This is a response 1",
-      sender: "sender3",
-      createdAt: new Date("2025-03-16T11:30:00Z"), // Older timestamp
-    },
-    {
-      id: "message4",
-      bottleId: bottle.id,
-      text: "This is a response 2",
-      sender: "sender3",
-      createdAt: new Date("2025-03-16T11:30:00Z"), // Older timestamp
-    },
-    {
-      id: "message3", // Fix duplicate ID
-      bottleId: bottle.id,
-      text: "This is the original message",
-      sender: bottle.creator,
-      createdAt: new Date("2025-03-16T11:00:00Z"), // Even older timestamp
-    },
-  ];
+  // const messages: Message[] = [
+  //   {
+  //     id: "message1",
+  //     bottleId: bottle.id,
+  //     text: "This is the most recent message",
+  //     sender: "sender2",
+  //     createdAt: new Date("2025-03-16T12:00:00Z"), // Hardcoded timestamp
+  //   },
+  //   {
+  //     id: "message2",
+  //     bottleId: bottle.id,
+  //     text: "This is a response 1",
+  //     sender: "sender3",
+  //     createdAt: new Date("2025-03-16T11:30:00Z"), // Older timestamp
+  //   },
+  //   {
+  //     id: "message4",
+  //     bottleId: bottle.id,
+  //     text: "This is a response 2",
+  //     sender: "sender3",
+  //     createdAt: new Date("2025-03-16T11:30:00Z"), // Older timestamp
+  //   },
+  //   {
+  //     id: "message3", // Fix duplicate ID
+  //     bottleId: bottle.id,
+  //     text: "This is the original message",
+  //     sender: bottle.creator,
+  //     createdAt: new Date("2025-03-16T11:00:00Z"), // Even older timestamp
+  //   },
+  // ];
+  
+  // Needed because we mismatched the incoming attribute names
+  const map_message = (data: any): Message => {
+    return {
+      id: data.id,
+      bottleId: data.bottle,
+      text: data.text,
+      sender: data.sender,
+      createdAt: data.created_at
+    };
+  };
 
+  const messages: Message[] = bottle.messages.map(map_message);
   return (
     <div
       className="flex flex-col items-center justify-center"
