@@ -1,4 +1,10 @@
 import { useState } from "react";
+import replyButtonDefault from "../assets/reply_button_default.png";
+import replyButtonHover from "../assets/reply_button_hover.png";
+import forwardButtonDefault from "../assets/forward_button_default.png";
+import forwardButtonHover from "../assets/forward_button_hover.png";
+import backButtonDefault from "../assets/back_button_default.png";
+import backButtonHover from "../assets/back_button_hover.png";
 
 interface BottleReplyProps {
   onReply: (message: string) => void;
@@ -27,12 +33,76 @@ const BottleReply = ({ onReply, onForward, onBack }: BottleReplyProps) => {
           whiteSpace: "pre-wrap",
         }}
       />
-      <div className="w-full flex justify-center items-center mt-6">
-        <button disabled={message === ""} onClick={() => onReply(message)}>
-          Reply
+      <div className="w-full flex justify-center items-center mt-6 gap-4">
+        <button onClick={() => onReply(message)}
+          className="w-30 h-12 bg-no-repeat bg-contain border-none outline-none focus:outline-none active:outline-none flex items-center justify-center"
+          style={{
+            backgroundImage: `url(${replyButtonDefault})`,
+            backgroundSize: "contain",
+            backgroundColor: "transparent",
+            fontFamily: "PixelifySans",
+            textAlign: "center",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            border: "none",
+            outline: "none",
+            boxShadow: "none",
+          }}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.backgroundImage = `url(${replyButtonHover})`)
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.backgroundImage = `url(${replyButtonDefault})`)
+          }
+        >
         </button>
-        <button onClick={() => onForward(message)}>Foward</button>
-        <button onClick={() => onBack()}>Back</button>
+        <button onClick={() => onForward(message)}
+          className="w-30 h-12 bg-no-repeat bg-contain border-none outline-none focus:outline-none active:outline-none flex items-center justify-center"
+          style={{
+            backgroundImage: `url(${forwardButtonDefault})`,
+            backgroundSize: "contain",
+            backgroundColor: "transparent",
+            fontFamily: "PixelifySans",
+            textAlign: "center",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            border: "none",
+            outline: "none",
+            boxShadow: "none",
+          }}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.backgroundImage = `url(${forwardButtonHover})`)
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.backgroundImage = `url(${forwardButtonDefault})`)
+          }
+        >
+        </button>
+        <button onClick={() => onBack()}
+          className="w-30 h-12 bg-no-repeat bg-contain border-none outline-none focus:outline-none active:outline-none flex items-center justify-center"
+          style={{
+            backgroundImage: `url(${backButtonDefault})`,
+            backgroundSize: "contain",
+            backgroundColor: "transparent",
+            fontFamily: "PixelifySans",
+            textAlign: "center",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            border: "none",
+            outline: "none",
+            boxShadow: "none",
+          }}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.backgroundImage = `url(${backButtonHover})`)
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.backgroundImage = `url(${backButtonDefault})`)
+          }
+        >
+        </button>
       </div>
     </div>
   );
