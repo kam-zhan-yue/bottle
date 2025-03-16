@@ -8,6 +8,7 @@ import InteractionHandler from "../classes/InteractionHandler";
 import ObstacleHandler from "../classes/ObstacleHandler";
 import BottleHandler from "../classes/BottleHandler";
 import AudioPlayer from "../classes/AudioPlayer";
+import Bottle from "../classes/Bottle";
 
 export class Island extends Scene {
   public title: string;
@@ -80,6 +81,10 @@ export class Island extends Scene {
     } else if (state === "game") {
       this.state = "game";
     }
+  }
+
+  getBottles(): Bottle[] {
+    return this.bottleHandler.getBottles();
   }
 
   update(_time: number, delta: number) {

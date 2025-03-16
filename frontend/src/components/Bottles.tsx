@@ -9,7 +9,7 @@ interface BottlesProps {
 }
 
 const Bottles = ({ handleClick }: BottlesProps) => {
-  const { user } = useContext(GameContext) as GameContextType;
+  const { island, user } = useContext(GameContext) as GameContextType;
   const { isPending, isError, data, error } = useRead(user);
 
   if (isPending) {
@@ -22,9 +22,20 @@ const Bottles = ({ handleClick }: BottlesProps) => {
 
   const bottles: Bottle[] = data?.data || [];
 
+  const islandBottles = island?.getBottles();
+
+  const islandBottleIds = new Set(
+    islandBottles?.map((bottle) => bottle.getId()) || [],
+  );
+
+  // We only want to show bottles that are not on the island
+  const filteredBottles = bottles.filter(
+    (bottle) => !islandBottleIds.has(bottle.id),
+  );
+
   return (
     <div className="flex gap-4 mt-2">
-      {bottles.map((bottle) => (
+      {filteredBottles.map((bottle) => (
         <BottlePopup key={bottle.id} bottle={bottle} onClick={handleClick} />
       ))}
     </div>

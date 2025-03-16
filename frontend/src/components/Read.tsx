@@ -16,7 +16,7 @@ interface ReadProps {
 }
 
 const Read = ({ sendJsonMessage, onCancel }: ReadProps) => {
-  const { island, user } = useContext(GameContext) as GameContextType;
+  const { island } = useContext(GameContext) as GameContextType;
   const [selectedBottle, setSelectedBottle] = useState<Bottle | null>(null);
 
   const onClick = () => {

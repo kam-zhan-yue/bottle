@@ -25,6 +25,10 @@ export default class BottleHandler {
     }
   }
 
+  getBottles(): Bottle[] {
+    return this.bottles;
+  }
+
   getMinBound(): Phaser.Math.Vector2 {
     return new Phaser.Math.Vector2(
       this.position.x - this.size.x / 2,

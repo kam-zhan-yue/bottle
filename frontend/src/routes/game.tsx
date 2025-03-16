@@ -35,19 +35,17 @@ function Game() {
   useEffect(() => {
     if (lastJsonMessage) {
       console.log("Game Received message:", lastJsonMessage);
-      const newId = "test_id";
-      island?.spawnBottle(newId);
-
-      setSentBottles((prevBottles) => {
-        if (!prevBottles.includes(newId)) {
-          return [...prevBottles, newId];
-        }
-        return prevBottles;
-      });
+      const receiver = lastJsonMessage.data.receiver_id;
+      const bottle = lastJsonMessage.data.bottle_id;
+      if (receiver !== user) {
+        console.log("This message is for someone else.");
+      } else {
+        island?.spawnBottle(bottle);
+      }
     } else {
       console.log("Game No message received");
     }
-  }, [island, lastJsonMessage, setSentBottles]);
+  }, [island, lastJsonMessage, user]);
 
   useEffect(() => {
     if (island) {
@@ -89,7 +87,7 @@ function Game() {
       unregisterEvent("note");
       unregisterEvent("bottle");
     };
-  }, [user, navigate, island, setSentBottles]);
+  }, [user, navigate, island]);
 
   const backToGame = () => {
     setState("game");
