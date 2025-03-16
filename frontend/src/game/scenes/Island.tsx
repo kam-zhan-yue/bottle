@@ -87,6 +87,14 @@ export class Island extends Scene {
     return this.bottleHandler.getBottles();
   }
 
+  fillMailbox() {
+    this.interactionHandler?.fillMailbox();
+  }
+
+  emptyMailbox() {
+    this.interactionHandler?.emptyMailbox();
+  }
+
   update(_time: number, delta: number) {
     this.elapsedTime += delta;
     EventBus.emit("update", this.elapsedTime);

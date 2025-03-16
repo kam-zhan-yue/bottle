@@ -10,6 +10,7 @@ export default class Interaction {
   private graphics!: Phaser.GameObjects.Graphics;
   private tooltip: GameImage;
   private active: boolean;
+  protected image!: GameImage;
 
   constructor(
     scene: Phaser.Scene,
@@ -26,7 +27,7 @@ export default class Interaction {
     this.size = size;
 
     if (imageKey) {
-      new GameImage(this.scene, this.position, imageKey, depth);
+      this.image = new GameImage(this.scene, this.position, imageKey, depth);
     }
 
     if (constants.debug) {

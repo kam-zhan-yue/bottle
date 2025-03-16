@@ -30,7 +30,6 @@ function Game() {
   const { sendJsonMessage, lastJsonMessage } = useWebSocket(WS_URL, {
     share: true,
   });
-  const [sentBottles, setSentBottles] = useState<string[]>([]);
 
   useEffect(() => {
     if (lastJsonMessage) {
@@ -77,9 +76,7 @@ function Game() {
 
     registerEvent("bottle", (id?: string) => {
       console.log(`Bottle ${id} has reached the island!`);
-      setSentBottles((prevBottles) =>
-        prevBottles.filter((bottleId) => bottleId !== id),
-      );
+      island?.fillMailbox();
     });
 
     return () => {

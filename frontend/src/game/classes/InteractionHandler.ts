@@ -1,20 +1,22 @@
 import Interaction from "./Interaction";
+import Mailbox from "./Mailbox";
 
 export default class InteractionHandler {
   private interactions: Interaction[];
+  private mailbox: Mailbox;
 
   constructor(scene: Phaser.Scene) {
     this.interactions = [];
 
-    this.add(
-      new Interaction(
-        scene,
-        "mailbox",
-        new Phaser.Math.Vector2(-80, 10),
-        new Phaser.Math.Vector2(50, 50),
-        "mailbox",
-      ),
+    this.mailbox = new Mailbox(
+      scene,
+      "mailbox",
+      new Phaser.Math.Vector2(-80, 10),
+      new Phaser.Math.Vector2(50, 50),
+      "mailbox",
     );
+
+    this.add(this.mailbox);
 
     this.add(
       new Interaction(
@@ -37,6 +39,14 @@ export default class InteractionHandler {
     this.interactions.forEach((interaction) => {
       interaction.update(playerPos);
     });
+  }
+
+  fillMailbox() {
+    this.mailbox?.makeFull();
+  }
+
+  emptyMailbox() {
+    this.mailbox?.makeEmpty();
   }
 
   getCurrentInteraction(playerPos: Phaser.Math.Vector2): Interaction | null {
