@@ -33,11 +33,10 @@ def received_bottles(request, user_id):
     for bottle in serializer.data:
         bottle_out = {
             "bottle_id": bottle["id"],
-            "messages": []
         }
         message_query = Message.objects.filter(bottle=bottle["id"])
         message_serializer = MessageSerializer(message_query, many=True)
-        bottle_out["messages"].append(message_serializer.data)
+        bottle_out["messages"] = message_serializer.data
         output.append(bottle_out)
     return Response(output)
 
