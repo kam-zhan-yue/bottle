@@ -85,11 +85,26 @@ class ChatConsumer(AsyncWebsocketConsumer):
         action = text_data_json.get('action', '')
         broadcast_object = dict()
 
-        bottle = await sync_to_async(Bottle.objects.create)(creator=self.user)
-        await sync_to_async(Message.objects.create)(text=message, sender=self.user, bottle=bottle)
-        broadcast_object["bottle_id"] = bottle.id
-        broadcast_object["receiver_id"] = await get_random_user(bottle)
-        print(broadcast_object)
+        match action:
+            case MessageAction.CREATE.value:
+                # Creates a new bottle and message and assigns a random receiver
+                user_instance = await get_user_by_id(self.user.id)
+                bottle = await sync_to_async(Bottle.objects.create)(creator=user_instance)
+                await sync_to_async(Message.objects.create)(text=message, sender=user_instance, bottle=bottle)
+                broadcast_object["bottle_id"] = bottle.id
+                broadcast_object["receiver_id"] = await get_random_user(bottle)
+
+            case MessageAction.REPLY.value:
+                # Creates a new message and assigns it to the original bottle creator
+                bottle = await sync_to_async(Bottle.objects.get)(id=bottle_id)
+                broadcast_object["bottle_id"] = bottle.id
+                broadcast_object["receiver_id"] = bottle.creator.id
+
+            case MessageAction.FORWARD.value:
+
+                bottle = await sync_to_async(Bottle.objects.get)(id=bottle_id)
+                broadcast_object["bottle_id"] = bottle.id
+                broadcast_object["receiver_id"] = await get_random_user(bottle)
         
         await self.channel_layer.group_send(
             "default",
