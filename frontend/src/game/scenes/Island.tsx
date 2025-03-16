@@ -1,14 +1,13 @@
 import { Scene } from "phaser";
 import { EventBus } from "../../EventBus";
-import Player from "../classes/Player";
-import InputHandler from "../classes/InputHandler";
 import createCharacterAnims from "../classes/AnimationHandler";
+import Bottle from "../classes/Bottle";
+import BottleHandler from "../classes/BottleHandler";
 import GameImage from "../classes/GameImage";
+import InputHandler from "../classes/InputHandler";
 import InteractionHandler from "../classes/InteractionHandler";
 import ObstacleHandler from "../classes/ObstacleHandler";
-import BottleHandler from "../classes/BottleHandler";
-import AudioPlayer from "../classes/AudioPlayer";
-import Bottle from "../classes/Bottle";
+import Player from "../classes/Player";
 
 export class Island extends Scene {
   public title: string;
@@ -19,14 +18,12 @@ export class Island extends Scene {
   private interactionHandler!: InteractionHandler;
   private obstacleHandler!: ObstacleHandler;
   private bottleHandler!: BottleHandler;
-  private audioPlayer: AudioPlayer;
 
   constructor() {
     super({ key: "Island" });
     this.title = "This is a title";
     this.elapsedTime = 0;
     this.state = "game";
-    this.audioPlayer = new AudioPlayer(this);
   }
 
   setupGame() {
@@ -118,7 +115,7 @@ export class Island extends Scene {
 
     if (this.inputHandler.isInteractDown()) {
       const interaction = this.interactionHandler.getCurrentInteraction(
-        this.player.getPos(),
+        this.player.getPos()
       );
       if (interaction) {
         EventBus.emit(interaction.id);
