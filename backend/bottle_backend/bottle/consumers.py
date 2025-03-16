@@ -45,9 +45,9 @@ def delete_online_user(user):
     return None
 
 @sync_to_async
-def get_bottle_last_sent_id(bottle_id):
+def get_bottle_receiver(bottle_id):
     bottle = Bottle.objects.get(id=bottle_id)
-    return bottle.last_sent.id
+    return bottle.receiver.id
 
 class ChatConsumer(AsyncWebsocketConsumer):
 
@@ -105,7 +105,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 print(f"REPLYING BOTTLE")
                 bottle = await sync_to_async(Bottle.objects.get)(id=bottle_id)
                 broadcast_object["bottle_id"] = bottle.id
-                broadcast_object["receiver_id"] = await get_bottle_last_sent_id(bottle.id)
+                broadcast_object["receiver_id"] = await get_bottle_receiver(bottle.id)
 
             case MessageAction.FORWARD.value:
                 bottle = await sync_to_async(Bottle.objects.get)(id=bottle_id)
