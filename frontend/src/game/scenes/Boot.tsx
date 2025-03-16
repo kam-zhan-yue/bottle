@@ -14,6 +14,7 @@ export class Boot extends Scene {
     this.load.image("table", "images/table.png");
     this.load.image("bottle", "images/bottle_floating.png");
     this.load.image("spacebar", "images/spacebar.png");
+    this.load.image("notification", "images/notification.png");
     this.load.atlas("player", "atlas/character.png", "atlas/character.json");
 
     this.load.glsl("stars", "shaders/stars.glsl");
