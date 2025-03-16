@@ -1,6 +1,9 @@
-import { createFileRoute, linkOptions, useNavigate } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  linkOptions,
+  useNavigate,
+} from "@tanstack/react-router";
 import TutorialComponent from "../components/TutorialComponent";
-import Overlay from "../components/Overlay";
 
 export const Route = createFileRoute("/about")({
   component: About,
@@ -16,11 +19,5 @@ function About() {
     navigate(gameLinkOption);
   };
 
-  return (
-    <div className="p-2">
-      <Overlay>
-        <TutorialComponent onTutorialCompleted={tutorialCompleted}/>
-      </Overlay>
-    </div>
-  );
+  return <TutorialComponent onTutorialCompleted={tutorialCompleted} />;
 }

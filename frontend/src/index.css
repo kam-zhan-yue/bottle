@@ -99,6 +99,7 @@ button:focus-visible {
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
   width: 20%;
+  min-width: 200px;
   height: auto;
 }
 
@@ -107,6 +108,7 @@ button:focus-visible {
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
   width: 10%;
+  min-width: 200px;
   height: auto;
 }
 

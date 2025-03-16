@@ -123,7 +123,7 @@ function Login() {
           </form>
 
           <p
-            className="text-sm text-center mt-4"
+            className="text-sm text-center mt-4 bg-black/20"
             style={{ fontFamily: "PixelifySans" }}
           >
             Don't have an account?{" "}
