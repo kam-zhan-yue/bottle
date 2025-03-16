@@ -8,8 +8,8 @@ import Send from "../components/Send";
 import { GameContext, GameContextType } from "../game/GameContext";
 import { InteractionType } from "../utils/InteractionType";
 
-const BASE_URL = process.env.BASE_URL;
-const WS_URL = `${BASE_URL}/ws/`;
+const WS_URL =
+  "bottle-backend.eba-vbbwx49g.ap-southeast-2.elasticbeanstalk.com/ws/";
 
 export const Route = createFileRoute("/game")({
   component: Game,
