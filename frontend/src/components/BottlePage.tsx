@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Bottle } from "../api/types/bottle";
 import { Message } from "../api/types/message";
 import { SendJsonMessage } from "react-use-websocket/dist/lib/types";
@@ -6,6 +6,8 @@ import { MessageAction } from "../utils/Interaction";
 import { GameContext, GameContextType } from "../game/GameContext";
 import { useReply } from "../api/hooks/use-reply";
 import { useForward } from "../api/hooks/use-forward";
+import BottleReply from "./BottleReply";
+import Messages from "./Messages";
 
 interface BottlePageProps {
   bottle: Bottle;
@@ -19,11 +21,10 @@ const BottlePage = ({
   onComplete,
 }: BottlePageProps) => {
   const { island, user } = useContext(GameContext) as GameContextType;
-  const [message, setMessage] = useState("");
   const { mutate: mutateReply } = useReply();
   const { mutate: mutateForward } = useForward();
 
-  const onReply = () => {
+  const onReply = (message: string) => {
     console.log("Replying ", message);
 
     mutateReply(
@@ -50,7 +51,7 @@ const BottlePage = ({
     );
   };
 
-  const onForward = () => {
+  const onForward = (message: string) => {
     console.log("Forwarding ", message);
     mutateForward(
       {
@@ -107,75 +108,19 @@ const BottlePage = ({
       createdAt: new Date("2025-03-16T11:00:00Z"), // Even older timestamp
     },
   ];
-  const sortedMessages = [...messages].sort(
-    (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
-  );
-
-  const originalMessage = sortedMessages[sortedMessages.length - 1];
-  const recentMessage = sortedMessages[0];
-
-  const otherResponses = sortedMessages.slice(1, sortedMessages.length - 1);
-
   return (
-    <div className="flex flex-col items-center justify-center" style={{ fontFamily: "PixelifySans", color: "#875A3A"}}>
-      <h3>Original Message</h3>
-      <p>{originalMessage?.text}</p>
-
-      {sortedMessages.length > 1 && (
-        <>
-          <h3>Most Recent Response</h3>
-          <p>{recentMessage?.text}</p>
-        </>
-      )}
-
-      {sortedMessages.length > 2 && (
-        <>
-          <h3>Other Responses</h3>
-          {otherResponses.map((response) => (
-            <MessageEntry bg_color="" text={response.text}/>
-          ))}
-        </>
-      )}
-      <div className="absolute w-1/2 h-auto max-w-xl p-15">
-        <p
-          className="text-xl text-center leading-tight mb-4"
-          style={{ fontFamily: "PixelifySans", color: "#875A3A" }}
-        >
-          Send a Message:
-        </p>
-        <textarea
-          required
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          className="bg-transparent text-black placeholder-black text-lg w-4/4 p-2 border-none outline-none resize-none h-50 overflow-auto"
-          placeholder="Type here..."
-          style={{
-            fontFamily: "PixelifySans",
-            whiteSpace: "pre-wrap",
-          }}
-        />
-        <div className="w-full flex justify-center items-center mt-6">
-          <button disabled={message === ""} onClick={() => onReply()}>
-            Reply
-          </button>
-          <button onClick={() => onForward()}>Foward</button>
-          <button onClick={() => onComplete()}>Back</button>
-        </div>
-      </div>
+    <div
+      className="flex flex-col items-center justify-center"
+      style={{ fontFamily: "PixelifySans", color: "#875A3A" }}
+    >
+      <Messages messages={messages} />
+      <BottleReply
+        onReply={onReply}
+        onForward={onForward}
+        onBack={onComplete}
+      />
     </div>
   );
 };
 
-interface MessageProps {
-  text: String
-  bg_color: String
-}
-
-const MessageEntry = ({text, bg_color}: MessageProps) => {
-  return <div className={`h-12${bg_color}`}>
-    <h2>{text}</h2>
-  </div>
-}
-
 export default BottlePage;
-
