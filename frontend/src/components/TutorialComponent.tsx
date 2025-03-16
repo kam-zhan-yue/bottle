@@ -1,8 +1,6 @@
 import got_it_button from "../assets/got_it_button.png";
 import { Background } from "./Background";
 import Overlay from "./Overlay";
-import forwardButtonDefault from "../assets/forward_button_default.png";
-import forwardButtonHover from "../assets/forward_button_hover.png";
 
 interface TutorialProps {
   onTutorialCompleted: () => void;
@@ -19,11 +17,11 @@ const TutorialComponent = ({ onTutorialCompleted }: TutorialProps) => {
       <Overlay>
         <div className="flex w-full h-full items-center justify-center">
           <div
-            className="bg-black/80 rounded-2xl flex flex-col items-center justify-center p-4 w-130 h-130"
+            className="bg-black/80 rounded-2xl flex flex-col items-center justify-center p-4 w-150 h-130"
             style={{ fontFamily: "PixelifySans", color: "#FFFFFF" }}
           >
             <h1 className="text-center">Welcome to Message in a Bottle</h1>
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center mb-5">
               <ul>
                 <li className="p-2">Use keys W, A, S, D to move around</li>
                 <li className="p-2">Press SPACE to interact with an object</li>
