@@ -33,6 +33,7 @@ const Read = ({ sendJsonMessage, onCancel }: ReadProps) => {
     setSelectedBottle(null);
     onCancel?.();
     island?.switchState("game");
+    island?.emptyMailbox();
   };
 
   const handleBack = () => {
