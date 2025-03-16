@@ -39,7 +39,7 @@ SECRET_KEY = 'django-insecure-$%xcz$7gi@$1p_&-!@rm96%*^#bcx&!ett1u&xk42*_v3d=82&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["bottle-backend.eba-vbbwx49g.ap-southeast-2.elasticbeanstalk.com", "localhost"]
+ALLOWED_HOSTS = ["bottle-backend.eba-vbbwx49g.ap-southeast-2.elasticbeanstalk.com"]
 # Application definition
 
 INSTALLED_APPS = [
@@ -70,7 +70,6 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Your frontend origin
     "http://bottle-backend.eba-vbbwx49g.ap-southeast-2.elasticbeanstalk.com"
 ]
 
