@@ -70,7 +70,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://bottle-backend.eba-vbbwx49g.ap-southeast-2.elasticbeanstalk.com"
+    "https://bottle-backend.eba-vbbwx49g.ap-southeast-2.elasticbeanstalk.com"
 ]
 
 ROOT_URLCONF = 'bottle_backend.urls'
