@@ -35,17 +35,22 @@ export class Island extends Scene {
     const tags = this.anims.createFromAseprite("ocean");
     console.log(tags);
 
-    const ocean = this.add
-      .sprite(0, 0, "ocean")
-      .play({ key: "ocean", repeat: -1 });
-    ocean.setDepth(-2000);
+    const OCEAN_WIDTH = 48;
+    const OCEAN_HEIGHT = 48;
 
-    // const width = ocean.width;
-    const rightOcean = this.add
-      .sprite(48, 0, "ocean")
-      .play({ key: "ocean", repeat: -1 });
-    rightOcean.setDepth(-2000);
+    const START_X = -960;
+    const START_Y = -960;
+    const END_X = 960;
+    const END_Y = 960;
 
+    for (let x = START_X; x <= END_X; x += OCEAN_WIDTH) {
+      for (let y = START_Y; y <= END_Y; y += OCEAN_HEIGHT) {
+        const ocean = this.add
+          .sprite(x, y, "ocean")
+          .play({ key: "ocean", repeat: -1 });
+        ocean.setDepth(-2000);
+      }
+    }
     // const sprite = this.add.sprite(500, 300).play({ key: 'Magnum Break', repeat: -1 }).setScale(6);
 
     // const shader = this.add.shader("water", 0, 0, 1280, 720);
@@ -131,7 +136,7 @@ export class Island extends Scene {
 
     if (this.inputHandler.isInteractDown()) {
       const interaction = this.interactionHandler.getCurrentInteraction(
-        this.player.getPos()
+        this.player.getPos(),
       );
       if (interaction) {
         EventBus.emit(interaction.id);
