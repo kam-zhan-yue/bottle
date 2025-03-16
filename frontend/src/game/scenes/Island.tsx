@@ -1,14 +1,13 @@
 import { Scene } from "phaser";
 import { EventBus } from "../../EventBus";
-import Player from "../classes/Player";
-import InputHandler from "../classes/InputHandler";
 import createCharacterAnims from "../classes/AnimationHandler";
+import Bottle from "../classes/Bottle";
+import BottleHandler from "../classes/BottleHandler";
 import GameImage from "../classes/GameImage";
+import InputHandler from "../classes/InputHandler";
 import InteractionHandler from "../classes/InteractionHandler";
 import ObstacleHandler from "../classes/ObstacleHandler";
-import BottleHandler from "../classes/BottleHandler";
-import AudioPlayer from "../classes/AudioPlayer";
-import Bottle from "../classes/Bottle";
+import Player from "../classes/Player";
 
 export class Island extends Scene {
   public title: string;
@@ -19,14 +18,12 @@ export class Island extends Scene {
   private interactionHandler!: InteractionHandler;
   private obstacleHandler!: ObstacleHandler;
   private bottleHandler!: BottleHandler;
-  private audioPlayer: AudioPlayer;
 
   constructor() {
     super({ key: "Island" });
     this.title = "This is a title";
     this.elapsedTime = 0;
     this.state = "game";
-    this.audioPlayer = new AudioPlayer(this);
   }
 
   setupGame() {
@@ -35,10 +32,31 @@ export class Island extends Scene {
     this.obstacleHandler = new ObstacleHandler(this);
     this.bottleHandler = new BottleHandler(this);
 
+    const tags = this.anims.createFromAseprite("ocean");
+    console.log(tags);
+
+    const ocean = this.add
+      .sprite(0, 0, "ocean")
+      .play({ key: "ocean", repeat: -1 });
+    ocean.setDepth(-2000);
+
+    // const width = ocean.width;
+    const rightOcean = this.add
+      .sprite(48, 0, "ocean")
+      .play({ key: "ocean", repeat: -1 });
+    rightOcean.setDepth(-2000);
+
+    // const sprite = this.add.sprite(500, 300).play({ key: 'Magnum Break', repeat: -1 }).setScale(6);
+
     // const shader = this.add.shader("water", 0, 0, 1280, 720);
     // shader.setDepth(-500);
     new GameImage(this, new Phaser.Math.Vector2(0, 0), "island", -100);
     new GameImage(this, new Phaser.Math.Vector2(-10, -50), "tree");
+    new GameImage(this, new Phaser.Math.Vector2(50, -30), "flower");
+    new GameImage(this, new Phaser.Math.Vector2(25, 45), "flower");
+    new GameImage(this, new Phaser.Math.Vector2(-25, 30), "flower");
+    new GameImage(this, new Phaser.Math.Vector2(-50, 0), "rock");
+    new GameImage(this, new Phaser.Math.Vector2(-20, 25), "rock");
   }
 
   setupAnimations() {
@@ -113,7 +131,7 @@ export class Island extends Scene {
 
     if (this.inputHandler.isInteractDown()) {
       const interaction = this.interactionHandler.getCurrentInteraction(
-        this.player.getPos(),
+        this.player.getPos()
       );
       if (interaction) {
         EventBus.emit(interaction.id);

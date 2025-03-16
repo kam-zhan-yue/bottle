@@ -99,26 +99,6 @@ function SignUp() {
             required
           />
 
-          <label
-            htmlFor="password"
-            className="text-sm text-left mt-4"
-            style={{ fontFamily: "PixelifySans" }}
-          >
-            Confirm password:
-          </label>
-          <input
-            id="password"
-            className="mt-1 p-2 rounded bg-gray-100 border border-gray-300 focus:outline-none"
-            type="password"
-            value={formData.password}
-            placeholder="password again"
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
-            style={{ color: "black", fontFamily: "PixelifySans" }}
-            required
-          />
-
           <button
             type="submit"
             className="mt-4 p-2 rounded bg-black text-white hover:bg-gray-800"

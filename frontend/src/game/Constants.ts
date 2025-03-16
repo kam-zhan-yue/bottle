@@ -1,5 +1,5 @@
 export const constants = {
-  debug: true,
+  debug: false,
   bottleSpeed: 0.03,
   bobFrequency: 2,
   bobAmplitude: 0.1,

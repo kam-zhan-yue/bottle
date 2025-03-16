@@ -61,7 +61,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-
 .message-dropdown {
   padding: 0;
   background-color: rgba(0, 0, 0, 0);
@@ -131,7 +130,8 @@ button:focus-visible {
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
-  width: 10px;
+  min-width: 32px;
+  max-width: 32px;
   height: auto;
 }
 

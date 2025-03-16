@@ -9,6 +9,7 @@ class Bottle(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     creator=models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="creator")
     receiver=models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="receiver")
+    last_sent=models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="last_sent")
     counter=models.IntegerField(default=0)
 
 class Message(models.Model):
@@ -20,5 +21,3 @@ class Message(models.Model):
 
 class OnlineUser(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-
