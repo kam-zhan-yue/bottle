@@ -38,8 +38,8 @@ function Game() {
   useEffect(() => {
     if (lastJsonMessage) {
       console.log("Game Received message:", lastJsonMessage);
-      const receiver = lastJsonMessage.data.receiver_id;
-      const bottle = lastJsonMessage.data.bottle_id;
+      const receiver = lastJsonMessage.message.receiver_id;
+      const bottle = lastJsonMessage.message.bottle_id;
       if (receiver !== user) {
         console.log("This message is for someone else.");
       } else {
