@@ -8,7 +8,7 @@ interface MessageProps {
 
 const Messages = ({ messages }: MessageProps) => {
   const sortedMessages = [...messages].sort(
-    (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   );
 
   const originalMessage = sortedMessages[sortedMessages.length - 1];
@@ -19,7 +19,6 @@ const Messages = ({ messages }: MessageProps) => {
   const [messagesOpen, setMessagesOpen] = useState(false);
 
   const toggleDropdown = () => {
-    console.log("Toggling")
     setMessagesOpen(!messagesOpen);
   }
 
