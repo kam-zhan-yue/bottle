@@ -9,19 +9,19 @@ interface BottleReplyProps {
 const BottleReply = ({ onReply, onForward, onBack }: BottleReplyProps) => {
   const [message, setMessage] = useState("");
   return (
-    <div className="absolute w-1/2 h-auto max-w-xl p-15">
+    <div className="relative w-full h-auto max-w-xl">
       <p
         className="text-xl text-center leading-tight mb-4"
         style={{ fontFamily: "PixelifySans", color: "#875A3A" }}
       >
-        Send a Message:
+        Reply:
       </p>
       <textarea
         required
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        className="bg-transparent text-black placeholder-black text-lg w-4/4 p-2 border-none outline-none resize-none h-50 overflow-auto"
-        placeholder="Type here..."
+        className="bg-transparent text-black placeholder-black text-lg w-full p-2 border-none outline-none resize-none h-30 overflow-auto text-left"
+        placeholder="Reply here..."
         style={{
           fontFamily: "PixelifySans",
           whiteSpace: "pre-wrap",
