@@ -38,7 +38,7 @@ const Messages = ({ messages }: MessageProps) => {
       
       {sortedMessages.length > 2 && (
         <>
-          <div className="self-start m-0 p-0 bg-transparent flex">
+          <div className="self-start m-0 p-0 bg-transparent flex pt-2">
             <button onClick={toggleDropdown} type="button" className="self-start m-0 p-0 bg-transparent">
               <img src={messagesOpen === true ? "/images/ArrowDown.svg": "/images/ArrowRight.svg"} alt="ArrowImg" />
             </button>
