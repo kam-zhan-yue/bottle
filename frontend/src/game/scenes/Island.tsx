@@ -39,6 +39,11 @@ export class Island extends Scene {
     // shader.setDepth(-500);
     new GameImage(this, new Phaser.Math.Vector2(0, 0), "island", -100);
     new GameImage(this, new Phaser.Math.Vector2(-10, -50), "tree");
+    new GameImage(this, new Phaser.Math.Vector2(50, -30), "flower");
+    new GameImage(this, new Phaser.Math.Vector2(25, 45), "flower");
+    new GameImage(this, new Phaser.Math.Vector2(-25, 30), "flower");
+    new GameImage(this, new Phaser.Math.Vector2(-50, 0), "rock");
+    new GameImage(this, new Phaser.Math.Vector2(-20, 25), "rock");
   }
 
   setupAnimations() {
