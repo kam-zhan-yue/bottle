@@ -1,8 +1,7 @@
 import json
 import random
 
-from accounts.models import Bottle, Message
-from django.contrib.auth.models import User
+from accounts.models import Bottle, Message, OnlineUser
 from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework import status
@@ -15,11 +14,11 @@ from .serializers import InboxSerializer, MessageSerializer
 # Create your views here.
 
 def get_random_user(bottle):
-    users = User.objects.exclude(id=bottle.creator.id).values_list('id', flat=True) 
+    users = OnlineUser.objects.all() .exclude(id=bottle.creator.id).values_list('user__id', flat=True) 
     if users.exists():
         return random.choice(users)
     else:
-        return bottle.creator
+        return bottle.creator.id
 
 def index(request):
     return HttpResponse("Hello World")

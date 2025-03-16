@@ -10,7 +10,7 @@ import useWebSocket from "react-use-websocket";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-const WS_URL = "ws://localhost/ws/";
+const WS_URL = "localhost/ws/";
 
 // Helper function to get cookie
 const getCookie = (name: string) => {
@@ -85,7 +85,11 @@ function Game() {
   const { island, user } = useContext(GameContext) as GameContextType;
   const navigate = useNavigate();
   const [state, setState] = useState<"game" | "read" | "send">("game");
-  const { sendJsonMessage, lastJsonMessage } = useWebSocket(WS_URL, {
+
+  const wsProtocol = window.location.protocol === "https:" ? "wss://" : "ws://";
+  const wsUrl = `${wsProtocol}${WS_URL}?user_id=${user}`;
+
+  const { sendJsonMessage, lastJsonMessage } = useWebSocket(wsUrl, {
     share: true,
   });
 
