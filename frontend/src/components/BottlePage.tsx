@@ -105,12 +105,13 @@ const BottlePage = ({
       createdAt: new Date("2025-03-16T11:00:00Z"), // Even older timestamp
     },
   ];
-  
+
   return (
     <div
       className="flex flex-col items-center justify-center"
       style={{ fontFamily: "PixelifySans", color: "#875A3A" }}
     >
+      
       <Messages messages={messages} />
       <BottleReply
         onReply={onReply}

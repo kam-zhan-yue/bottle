@@ -81,13 +81,6 @@ const Read = ({ sendJsonMessage, onCancel }: ReadProps) => {
           </div>
 
           <div className="w-full px-4 mb-4">
-            <p
-              className="text-lg font-bold"
-              style={{ fontFamily: "PixelifySans", color: "#875A3A" }}
-            >
-              Incoming
-            </p>
-
             {selectedBottle && (
               <BottlePage
                 sendJsonMessage={sendJsonMessage}

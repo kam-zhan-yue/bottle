@@ -34,10 +34,20 @@ const Bottles = ({ handleClick }: BottlesProps) => {
   );
 
   return (
-    <div className="flex gap-4 mt-2">
-      {filteredBottles.map((bottle) => (
-        <BottlePopup key={bottle.id} bottle={bottle} onClick={handleClick} />
-      ))}
+    
+    <div className="flex flex-col items-start mt-4">
+      <h2 
+        className="text-lg font-bold mb-2"
+        style={{ fontFamily: "PixelifySans", color: "#875A3A" }}
+      >
+        Incoming
+      </h2>
+
+      <div className="flex gap-4">
+        {filteredBottles.map((bottle) => (
+          <BottlePopup key={bottle.id} bottle={bottle} onClick={handleClick} />
+        ))}
+      </div>
     </div>
   );
 };
