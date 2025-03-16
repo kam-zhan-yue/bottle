@@ -19,7 +19,7 @@ def get_random_user(bottle):
     if users.exists():
         return random.choice(users)
     else:
-        return bottle.creator.id
+        return None
 
 @sync_to_async
 def get_user_by_id(user_id):
@@ -44,8 +44,6 @@ def delete_online_user(user):
     return None
 
 class ChatConsumer(AsyncWebsocketConsumer):
-
-
 
     async def connect(self):        # Join room group
         await self.channel_layer.group_add(
