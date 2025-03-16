@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import Overlay from "../components/Overlay";
 import logo from "../assets/bottle.png";
 import "../index.css";
+import { Background } from "../components/Background";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -10,6 +11,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <>
+      <Background />
       <Overlay>
         <div className="w-full h-full flex flex-col justify-center items-center">
           <img src={logo} alt="Logo" className="logo" />

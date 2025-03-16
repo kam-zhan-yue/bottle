@@ -95,6 +95,7 @@ export class Island extends Scene {
     this.setupGame();
     this.setupAnimations();
     this.cameras.main.zoom = 3.0;
+    this.cameras.main.centerOn(0, 0);
   }
 
   switchState(state: string) {
