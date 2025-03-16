@@ -39,7 +39,6 @@ const BottlePage = ({
 
           sendJsonMessage({
             action: MessageAction.REPLY.toString(),
-            message_id: data.data.message_id,
             bottle_id: bottle.id,
             user_id: user,
           });
@@ -62,12 +61,15 @@ const BottlePage = ({
       {
         onSuccess: (data) => {
           console.log("Forward Completed! ", data);
-
-          sendJsonMessage({
-            action: MessageAction.FORWARD.toString(),
-            bottle_id: bottle.id,
-            user_id: user,
-          });
+          if (data.data.message.bottle_id) {
+            sendJsonMessage({
+              action: MessageAction.FORWARD.toString(),
+              bottle_id: bottle.id,
+              user_id: user,
+            });
+          } else {
+            console.log("Bottle was deleted");
+          }
           onComplete();
           island?.replyBottle();
           island?.switchState("game");

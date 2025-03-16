@@ -14,12 +14,12 @@ from .serializers import InboxSerializer, MessageSerializer
 
 # Create your views here.
 
-def get_random_user(bottle):
-    users = OnlineUser.objects.all() .exclude(id=bottle.creator.id).values_list('user__id', flat=True)
+def get_random_user(user_id):
+    users = OnlineUser.objects.all().exclude(user__id=user_id).values_list('user__id', flat=True)
     if users.exists():
         return random.choice(users)
     else:
-        return bottle.creator.id
+        return None
 
 def index(request):
     return HttpResponse("Hello World")
@@ -48,7 +48,7 @@ def reply_bottle(request):
     bottle_id = data["bottle_id"]
     message = data["message"]
     user_id = data["user_id"]
-    user =User.objects.get(id=user_id)
+    user = User.objects.get(id=user_id)
     return_body = dict()
 
     bottle = Bottle.objects.get(id=bottle_id)
@@ -75,16 +75,33 @@ def forward_bottle(request):
         data = json.loads(request.body)
         bottle_id = data["bottle_id"]
         message = data["message"]
-        user = request.user
-        return_body = dict()
+        user_id = data["user_id"]
+        user = User.objects.get(id=user_id)
+
+        # If we have a message, then we create it and forward the bottle to the next person without decrementing the counter
 
         bottle = Bottle.objects.get(id=bottle_id)
-
+        random_user_id = ''
+        deleted = False
         if message:
             Message.objects.create(text=message, sender=user, bottle=bottle)
+            random_user_id = get_random_user(user_id)
+            bottle.receiver = random_user_id
+            bottle.last_sent = user
+            bottle.save()
+        else:
+            bottle.counter += 1
+            if bottle.counter >= 1:
+                messages = Message.objects.filter(bottle=bottle)
+                messages.delete()
+                bottle.delete()
+                deleted = True
+            else:
+                bottle.save()
 
-        return_body["bottle_id"] = bottle.id
-        return_body["receiver_id"] = get_random_user(bottle)
+        return_body = dict()
+        return_body["bottle_id"] = "" if deleted else bottle.id
+        return_body["receiver_id"] = "" if deleted else random_user_id
         return Response({"message": return_body}, status=status.HTTP_200_OK)
 
     except:
