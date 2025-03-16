@@ -9,7 +9,7 @@ export default class Mailbox extends Interaction {
     id: InteractionType,
     point: Phaser.Math.Vector2,
     size: Phaser.Math.Vector2,
-    imageKey: string | undefiined = undefined,
+    imageKey: string | undefined = undefined,
     depth: number | undefined = undefined,
     offset: number | undefined = undefined,
   ) {

@@ -19,8 +19,10 @@ export class Island extends Scene {
   private interactionHandler!: InteractionHandler;
   private obstacleHandler!: ObstacleHandler;
   private bottleHandler!: BottleHandler;
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private audioPlayer: AudioPlayer;
-
+  
   constructor() {
     super({ key: "Island" });
     this.title = "This is a title";
@@ -28,6 +30,10 @@ export class Island extends Scene {
     this.state = "game";
     this.audioPlayer = new AudioPlayer(this);
   }
+
+  // playBackgroundMusic() {
+  //   this.audioPlayer.play('background-music');
+  // }
 
   setupGame() {
     this.inputHandler = new InputHandler(this);
