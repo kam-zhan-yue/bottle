@@ -4,11 +4,11 @@ import mailboxIcon from "../assets/mailbox.png";
 import { useContext, useState } from "react";
 import { GameContext, GameContextType } from "../game/GameContext";
 import Overlay from "./Overlay";
-import { useRead } from "../api/hooks/read";
-import BottlePopup from "./BottlePopup";
 import { Bottle } from "../api/types/bottle";
 import BottlePage from "./BottlePage";
 import { SendJsonMessage } from "react-use-websocket/dist/lib/types";
+import "../index.css";
+import Bottles from "./Bottles";
 
 interface ReadProps {
   sendJsonMessage: SendJsonMessage;
@@ -17,23 +17,12 @@ interface ReadProps {
 
 const Read = ({ sendJsonMessage, onCancel }: ReadProps) => {
   const { island, user } = useContext(GameContext) as GameContextType;
-  const { isPending, isError, data, error } = useRead(user);
   const [selectedBottle, setSelectedBottle] = useState<Bottle | null>(null);
 
   const onClick = () => {
     onCancel?.();
     island?.switchState("game");
   };
-
-  if (isPending) {
-    return <span>Loading...</span>;
-  }
-
-  if (isError) {
-    return <span>Error: {error.message}</span>;
-  }
-
-  const bottles: Bottle[] = data?.data || [];
 
   const handleClick = (bottle: Bottle) => {
     console.log(`Clicked on bottle: ${bottle.id}`);
@@ -74,7 +63,7 @@ const Read = ({ sendJsonMessage, onCancel }: ReadProps) => {
             </div>
 
             <button
-              className="w-10 h-10 bg-no-repeat bg-contain border-none outline-none"
+              className="pixel w-10 h-10 bg-no-repeat bg-contain border-none outline-none"
               style={{
                 backgroundImage: `url(${closeButton})`,
                 backgroundSize: "contain",
@@ -106,17 +95,7 @@ const Read = ({ sendJsonMessage, onCancel }: ReadProps) => {
                 onComplete={handleCloseBottlePage}
               />
             )}
-            {!selectedBottle && (
-              <div className="flex gap-4 mt-2">
-                {bottles.map((bottle) => (
-                  <BottlePopup
-                    key={bottle.id}
-                    bottle={bottle}
-                    onClick={handleClick}
-                  />
-                ))}
-              </div>
-            )}
+            {!selectedBottle && <Bottles handleClick={handleClick} />}
           </div>
         </div>
       </div>

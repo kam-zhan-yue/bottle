@@ -76,6 +76,7 @@ export class Island extends Scene {
   switchState(state: string) {
     if (state === "ui") {
       this.state = "ui";
+      this.player.stop();
     } else if (state === "game") {
       this.state = "game";
     }

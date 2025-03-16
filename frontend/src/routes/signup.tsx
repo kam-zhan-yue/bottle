@@ -8,7 +8,7 @@ import { useContext, useState } from "react";
 import { GameContext, GameContextType } from "../game/GameContext";
 import logo from "../assets/bottle.png";
 import "../index.css";
-import { useCreateAccount } from "../api/hooks/register";
+import { useCreateAccount } from "../api/hooks/use-register";
 import { Account } from "../api/types/account";
 
 export const Route = createFileRoute("/signup")({

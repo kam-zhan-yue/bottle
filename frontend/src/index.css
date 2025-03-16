@@ -1,6 +1,6 @@
 @import "tailwindcss";
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif, 'Jura', 'Tiny5';
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif, "Jura", "Tiny5";
   line-height: 1.5;
   font-weight: 400;
 
@@ -75,12 +75,18 @@ button:focus-visible {
 }
 
 #app {
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pixel {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .logo {
@@ -124,28 +130,28 @@ button:focus-visible {
 }
 
 @font-face {
-  font-family: 'Tiny5';
-  src: url('/src/assets/fonts/Tiny5.ttf') format('truetype');
+  font-family: "Tiny5";
+  src: url("/src/assets/fonts/Tiny5.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Jura';
-  src: url('/src/assets/fonts/Jura.ttf') format('truetype');
+  font-family: "Jura";
+  src: url("/src/assets/fonts/Jura.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'PixelifySans';
-  src: url('/src/assets/fonts/PixelifySans.ttf') format('truetype');
+  font-family: "PixelifySans";
+  src: url("/src/assets/fonts/PixelifySans.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 ::placeholder {
-  color: gray; 
+  color: gray;
   opacity: 1;
-  font-family: 'PixelifySans';
+  font-family: "PixelifySans";
 }

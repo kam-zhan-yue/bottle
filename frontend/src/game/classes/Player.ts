@@ -78,6 +78,10 @@ export default class Player {
     }
   }
 
+  stop() {
+    this.body.setVelocity(0, 0);
+  }
+
   update() {
     this.checkInputs();
     this.body.depth = this.body.y + this.body.height / 2;

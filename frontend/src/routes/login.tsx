@@ -9,7 +9,7 @@ import { GameContext, GameContextType } from "../game/GameContext";
 import logo from "../assets/bottle.png";
 import "../index.css";
 import { Account } from "../api/types/account";
-import { useLogin } from "../api/hooks/login";
+import { useLogin } from "../api/hooks/use-login";
 
 export const Route = createFileRoute("/login")({
   component: Login,

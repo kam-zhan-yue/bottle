@@ -4,6 +4,8 @@ import { Message } from "../api/types/message";
 import { SendJsonMessage } from "react-use-websocket/dist/lib/types";
 import { MessageAction } from "../utils/Interaction";
 import { GameContext, GameContextType } from "../game/GameContext";
+import { useReply } from "../api/hooks/use-reply";
+import { useForward } from "../api/hooks/use-forward";
 
 interface BottlePageProps {
   bottle: Bottle;
@@ -18,31 +20,60 @@ const BottlePage = ({
 }: BottlePageProps) => {
   const { island, user } = useContext(GameContext) as GameContextType;
   const [message, setMessage] = useState("");
+  const { mutate: mutateReply } = useReply();
+  const { mutate: mutateForward } = useForward();
 
   const onReply = () => {
     console.log("Replying ", message);
-    sendJsonMessage({
-      action: MessageAction.REPLY.toString(),
-      bottle_id: bottle.id,
-      user_id: user,
-      message,
-    });
-    onComplete();
-    island?.replyBottle();
-    island?.switchState("game");
+
+    mutateReply(
+      {
+        id: user,
+        bottleId: bottle.id,
+        message,
+      },
+      {
+        onSuccess: (data) => {
+          console.log("Reply Completed! ", data);
+
+          sendJsonMessage({
+            action: MessageAction.REPLY.toString(),
+            bottle_id: bottle.id,
+            user_id: user,
+            message,
+          });
+          onComplete();
+          island?.replyBottle();
+          island?.switchState("game");
+        },
+      },
+    );
   };
 
   const onForward = () => {
-    console.log("Replying ", message);
-    sendJsonMessage({
-      action: MessageAction.REPLY.toString(),
-      bottle_id: bottle.id,
-      user_id: user,
-      message,
-    });
-    onComplete();
-    island?.replyBottle();
-    island?.switchState("game");
+    console.log("Forwarding ", message);
+    mutateForward(
+      {
+        id: user,
+        bottleId: bottle.id,
+        message,
+      },
+      {
+        onSuccess: (data) => {
+          console.log("Forward Completed! ", data);
+
+          sendJsonMessage({
+            action: MessageAction.FORWARD.toString(),
+            bottle_id: bottle.id,
+            user_id: user,
+            message,
+          });
+          onComplete();
+          island?.replyBottle();
+          island?.switchState("game");
+        },
+      },
+    );
   };
 
   // For testing purposes
@@ -127,9 +158,8 @@ const BottlePage = ({
           <button disabled={message === ""} onClick={() => onReply()}>
             Reply
           </button>
-          <button disabled={message === ""} onClick={() => onReply()}>
-            Foward
-          </button>
+          <button onClick={() => onForward()}>Foward</button>
+          <button onClick={() => onComplete()}>Back</button>
         </div>
       </div>
     </div>
