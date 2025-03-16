@@ -2,6 +2,7 @@ import json
 import random
 
 from accounts.models import Bottle, Message, OnlineUser
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework import status
@@ -46,7 +47,8 @@ def reply_bottle(request):
     data = json.loads(request.body)
     bottle_id = data["bottle_id"]
     message = data["message"]
-    user = request.user
+    user_id = data["user_id"]
+    user =User.objects.get(id=user_id)
     return_body = dict()
     
     bottle = Bottle.objects.get(id=bottle_id)
