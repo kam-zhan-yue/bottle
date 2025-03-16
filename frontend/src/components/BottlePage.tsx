@@ -86,7 +86,7 @@ const BottlePage = ({
   const otherResponses = sortedMessages.slice(1, sortedMessages.length - 1);
 
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center" style={{ fontFamily: "PixelifySans", color: "#875A3A"}}>
       <h3>Original Message</h3>
       <p>{originalMessage?.text}</p>
 
@@ -101,7 +101,7 @@ const BottlePage = ({
         <>
           <h3>Other Responses</h3>
           {otherResponses.map((response) => (
-            <p key={response.id}>{response.text}</p>
+            <MessageEntry bg_color="" text={response.text}/>
           ))}
         </>
       )}
@@ -136,4 +136,16 @@ const BottlePage = ({
   );
 };
 
+interface MessageProps {
+  text: String
+  bg_color: String
+}
+
+const MessageEntry = ({text, bg_color}: MessageProps) => {
+  return <div className={`h-12${bg_color}`}>
+    <h2>{text}</h2>
+  </div>
+}
+
 export default BottlePage;
+
