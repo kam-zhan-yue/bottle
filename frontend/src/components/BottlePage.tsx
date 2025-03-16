@@ -158,9 +158,8 @@ const BottlePage = ({
           <button disabled={message === ""} onClick={() => onReply()}>
             Reply
           </button>
-          <button disabled={message === ""} onClick={() => onReply()}>
-            Foward
-          </button>
+          <button onClick={() => onForward()}>Foward</button>
+          <button onClick={() => onComplete()}>Back</button>
         </div>
       </div>
     </div>

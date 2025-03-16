@@ -53,6 +53,18 @@ export default class BottleHandler {
     this.bottles.push(bottle);
   }
 
+  replyBottle() {
+    const bottle = new Bottle(
+      constants.sendBottleId,
+      this.scene,
+      // Hard coded spawn point
+      new Phaser.Math.Vector2(-100, 0),
+      // Hard coded destination
+      new Phaser.Math.Vector2(-1000, 0),
+    );
+    this.bottles.push(bottle);
+  }
+
   spawnBottle(id: string) {
     const bottle = new Bottle(
       id,
