@@ -32,6 +32,22 @@ export class Island extends Scene {
     this.obstacleHandler = new ObstacleHandler(this);
     this.bottleHandler = new BottleHandler(this);
 
+    const tags = this.anims.createFromAseprite("ocean");
+    console.log(tags);
+
+    const ocean = this.add
+      .sprite(0, 0, "ocean")
+      .play({ key: "ocean", repeat: -1 });
+    ocean.setDepth(-2000);
+
+    // const width = ocean.width;
+    const rightOcean = this.add
+      .sprite(48, 0, "ocean")
+      .play({ key: "ocean", repeat: -1 });
+    rightOcean.setDepth(-2000);
+
+    // const sprite = this.add.sprite(500, 300).play({ key: 'Magnum Break', repeat: -1 }).setScale(6);
+
     // const shader = this.add.shader("water", 0, 0, 1280, 720);
     // shader.setDepth(-500);
     new GameImage(this, new Phaser.Math.Vector2(0, 0), "island", -100);
