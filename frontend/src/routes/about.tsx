@@ -1,5 +1,6 @@
 import { createFileRoute, linkOptions, useNavigate } from "@tanstack/react-router";
 import TutorialComponent from "../components/TutorialComponent";
+import Overlay from "../components/Overlay";
 
 export const Route = createFileRoute("/about")({
   component: About,
@@ -17,7 +18,9 @@ function About() {
 
   return (
     <div className="p-2">
-      <TutorialComponent onTutorialCompleted={tutorialCompleted}/>
+      <Overlay>
+        <TutorialComponent onTutorialCompleted={tutorialCompleted}/>
+      </Overlay>
     </div>
   );
 }
